@@ -8,8 +8,9 @@ namespace Inventory_Management.Models
         public int Id { get; set; }
 
         [ForeignKey("ItemId")]
-        [JsonIgnore]
+        
         public int ItemId {  get; set; }
+        [JsonIgnore]
         public ItemModel Item { get; set; }
 
         public string Unit {  get; set; }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Inventory_Management.Models
@@ -8,10 +9,11 @@ namespace Inventory_Management.Models
         public int Id {  get; set; }
         public DateTime SalesDate { get; set; }
 
-        [ForeignKey("CustomerId")]
         public int CustomerId {  get; set; }
         [JsonIgnore]
-        public CustomerModel Customer { get; set; }
+        [ForeignKey("CustomerId")]
+        [ValidateNever]
+        public virtual CustomerModel Customer { get; set; }
 
         public int InvoiceNumber { get; set; }
 

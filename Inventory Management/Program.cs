@@ -10,6 +10,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IItemService, ItemService>();
+builder.Services.AddTransient<ISalesDetailsService,SalesDetailsService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
