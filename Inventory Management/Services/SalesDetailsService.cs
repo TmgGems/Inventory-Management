@@ -20,12 +20,14 @@ namespace Inventory_Management.Services
             {
                 foreach (var item in masterdata)
                 {
+                    var customer = _context.Customers.FirstOrDefault(c => c.Id == item.CustomerId);
                     var detail = _context.SalesDetails.Where(x => x.SalesMasterId == item.Id).ToList();
                     var data = new SalesMasterVM()
                     {
                         Id = item.Id,
                         SalesDate = item.SalesDate,
                         CustomerId = item.CustomerId,
+                        CustomerName = customer?.FullName,
                         InvoiceNumber = item.InvoiceNumber,
                         BillAmount = item.BillAmount,
                         Discount = item.Discount,

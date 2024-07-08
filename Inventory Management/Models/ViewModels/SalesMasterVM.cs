@@ -10,6 +10,7 @@ namespace Inventory_Management.Models.ViewModels
 
         public int CustomerId { get; set; }
 
+        public string? CustomerName { get; set; }
         public int InvoiceNumber { get; set; }
 
         public decimal BillAmount { get; set; }

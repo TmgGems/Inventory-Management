@@ -8,6 +8,7 @@ var mastermodelVM = function (item)
     self.salesDate = ko.observable(item.salesDate || '');
     self.customerId = ko.observable(item.customerId || '');
     self.invoiceNumber = ko.observable(item.invoiceNumber || 0);
+    self.customerName = ko.observable(item.customerName || '');
     self.billAmount = ko.observable(item.billAmount || 0);
     self.discount = ko.observable(item.discount || 0);
     self.netAmount = ko.observable(item.netAmount || 0);
