@@ -1,0 +1,40 @@
+﻿<h2>Inventory Management</h2>
+<table class="table table-striped mt-4">
+    <thead>
+        <tr>
+            <th>S.N.</th>
+            <th>Sales Date</th>
+            <th>Customer Name</th>
+            <th>Invoice Number</th>
+            <th>Bill Amount</th>
+            <th>Discount Amount</th>
+            <th>Net Amount</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: SalesList">
+        <tr>
+            <td data-bind="text: $index() + 1"></td>
+            <td data-bind="text: salesDate"></td>
+            <td data-bind="text: customerId"></td>
+            <td data-bind="text: invoiceNumber"></td>
+            <td data-bind="text: billAmount"></td>
+            <td data-bind="text: discount"></td>
+            <td data-bind="text: netAmount"></td>
+            <td>
+                <button class="btn btn-sm btn-dark" >Edit</button>
+                <button class="btn btn-sm btn-danger">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+@section Scripts
+{
+    <script src="~/js/knockout.js"></script>
+    <script src="~/js/masterdetails/masterdetailcontroller.js"></script>
+    <script src="~/js/masterdetails/masterdetailmodel.js"></script>
+    <script>
+        var obj = new masterdetailsController();
+        ko.applyBindings(obj);
+    </script>
+}
