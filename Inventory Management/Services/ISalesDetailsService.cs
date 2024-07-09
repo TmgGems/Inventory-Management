@@ -13,5 +13,9 @@ namespace Inventory_Management.Services
         bool Updates(SalesMasterVM obj);
 
         int Delete(int id);
+
+        IEnumerable<GetCustomersNameVM> GetCustomersName();
+
+        IEnumerable<GetItemsNameVM> GetItemsName();
     }
 }

@@ -12,7 +12,7 @@ var mastermodelVM = function (item)
     self.billAmount = ko.observable(item.billAmount || 0);
     self.discount = ko.observable(item.discount || 0);
     self.netAmount = ko.observable(item.netAmount || 0);
-    self.sales = ko.observable((item.sales || []).map(function (item) {
+    self.sales = ko.observableArray((item.sales || []).map(function (item) {
         return new detailsmodelVM(item);
     }));
 }
@@ -27,4 +27,20 @@ var detailsmodelVM = function (item)
     self.quantity = ko.observable(item.quantity || 0);
     self.price = ko.observable(item.price || 0);
     self.amount = ko.observable(item.amount || 0);
+}
+
+var customernamemodel = function (item)
+{
+    var self = this;
+    item = item || {};
+    self.customerId = ko.observable(item.customerId || 0);
+    self.customerName = ko.observable(item.customerName || '');
+}
+
+var itemnamemodel = function (item)
+{
+    var self = this;
+    item = item || {};
+    self.itemId = ko.observable(item.itemId || 0);
+    self.itemName = ko.observable(item.itemName || '');
 }

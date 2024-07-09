@@ -176,5 +176,25 @@ namespace Inventory_Management.Services
                 return true;
             };
         }
+
+        public IEnumerable<GetCustomersNameVM> GetCustomersName()
+        {
+            var customers = _context.Customers.Select(customer => new GetCustomersNameVM
+            {
+                CustomerId = customer.Id,
+                CustomerName = customer.FullName
+            }).ToList();
+            return customers;
+        }
+
+        public IEnumerable<GetItemsNameVM> GetItemsName()
+        {
+            var items = _context.Items.Select(item => new GetItemsNameVM
+            {
+                ItemId = item.Id,
+                ItemName = item.Name
+            }).ToList();
+            return items;
+        }
     }
 }

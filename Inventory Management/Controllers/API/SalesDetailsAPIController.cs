@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory_Management.Controllers.API
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[Action]")]
     [ApiController]
     public class SalesDetailsAPIController : ControllerBase
     {
@@ -44,5 +44,18 @@ namespace Inventory_Management.Controllers.API
         {
             return _salesDetailsService.Delete(id);
         }
+        [HttpGet]
+        public IEnumerable<GetCustomersNameVM> GetCustomersName()
+        {
+            return _salesDetailsService.GetCustomersName();
+        }
+
+        [HttpGet]
+        public IEnumerable<GetItemsNameVM> GetItemsName()
+        {
+            return _salesDetailsService.GetItemsName();
+        }
+
+
     }
 }
