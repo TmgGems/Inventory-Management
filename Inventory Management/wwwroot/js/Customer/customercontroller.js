@@ -13,6 +13,7 @@ var customerController = function () {
     self.SelectedCustomer = ko.observable(new customermodel());
     self.mode = ko.observable(mode.create);
 
+
     //Fetch Data From Server
     self.getData = function () {
         ajax.get(baseUrl).then(function (result) {

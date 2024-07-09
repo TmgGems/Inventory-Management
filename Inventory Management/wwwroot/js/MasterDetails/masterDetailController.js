@@ -62,7 +62,7 @@ var masterdetailsController = function ()
     self.AddSales = function ()
     {
         debugger;
-        ajax.post(baseUrl, ko.toJSON(self.NewSales()))
+        ajax.post(baseUrl + "/Add", ko.toJSON(self.NewSales()))
             .done(function (result) {
                 self.SalesList.push(new mastermodelVM(result));
                 self.resetForm();
@@ -79,15 +79,6 @@ var masterdetailsController = function ()
         self.IsUpdated(false);
     };
 
-    // Add Item
-    //self.AddItem = function () {
-    //    var currentSales = self.NewSales();
-    //    if (!currentSales.sales || !ko.isObservable(currentSales.sales)) {
-    //        currentSales.sales = ko.observableArray([]);
-    //    }
-    //    currentSales.sales.push(new detailsmodelVM());
-    //    self.NewSales(currentSales);  // Trigger update
-    //};
 
     self.AddItem = function () {
         self.NewSales().sales.push(new detailsmodelVM());
