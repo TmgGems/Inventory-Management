@@ -19,7 +19,7 @@
                         <div class="row" data-bind="with: NewSales">
                             <div class="col-md-4 form-group">
                                 <label>Sales Date:</label>
-                                <input type="datetime-local" class="form-control" data-bind="value:salesDate">
+                                <input type="datetime-local" class="form-control" data-bind="value: salesDate">
                             </div>
                             <div class="col-md-4 form-group">
                                 <label>Customer Name:</label>
@@ -120,8 +120,8 @@
                 <td data-bind="text: discount"></td>
                 <td data-bind="text: netAmount"></td>
                 <td>
-                    <button class="btn btn-sm btn-dark">Edit</button>
-                    <button class="btn btn-sm btn-danger">Delete</button>
+                    <button class="btn btn-sm btn-dark" data-bind="click: $root.SelectSale" data-bs-toggle="modal" data-bs-target="#salesModal">Edit</button>
+                    <button class="btn btn-sm btn-danger" data-bind="click:$root.DeleteSales">Delete</button>
                 </td>
             </tr>
         </tbody>

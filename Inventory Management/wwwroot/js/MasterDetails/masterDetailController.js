@@ -1,7 +1,11 @@
 ﻿/// <reference path="../knockout.js" />
 
-var masterdetailsController = function ()
-{
+
+const mode = {
+    create: 1,
+    update: 2
+};
+var masterdetailsController = function () {
     var self = this;
     const baseUrl = "/api/SalesDetailsAPI";
     self.SalesList = ko.observableArray([]);
@@ -12,8 +16,7 @@ var masterdetailsController = function ()
     self.IsUpdated = ko.observable(false);
     //self.NewSales().sales.push(new detailsmodelVM());
     //Get All Data
-    self.getData = function ()
-    {
+    self.getData = function () {
         ajax.get(baseUrl + "/GetAll").then(function (result) {
             self.SalesList(result.map(item => new mastermodelVM(item)));
         });
@@ -59,20 +62,69 @@ var masterdetailsController = function ()
 
     self.getItemsName();
 
-    self.AddSales = function ()
-    {
-        debugger;
-        ajax.post(baseUrl + "/Add", ko.toJSON(self.NewSales()))
-            .done(function (result) {
-                self.SalesList.push(new mastermodelVM(result));
-                self.resetForm();
-                self.getData();
-                $('#salesModal').modal('hide');
-            })
-            .fail(function (err) {
-                console.log(err);
-            });
+    self.AddSales = function () {
+        var salesData = ko.toJS(self.NewSales());
+        if (self.IsUpdated()) {
+            ajax.put(baseUrl + "/Updates", JSON.stringify(salesData))
+                .done(function (result) {
+                    var updatedSales = new mastermodelVM(result);
+                    var index = self.SalesList().findIndex(function (item) {
+                        return item.id() === updatedSales.id();
+                    });
+                    if (index >= 0) {
+                        self.SalesList.replace(self.SalesList()[index], updatedSales);
+                    }
+                    self.resetForm();
+                    self.getData();
+                    $('#salesModal').modal('hide');
+                })
+                .fail(function (err) {
+                    console.error("Error updating sales:", err);
+                });
+        }
+        else {
+
+            ajax.post(baseUrl + "/Add", ko.toJSON(self.NewSales()))
+                .done(function (result) {
+                    self.SalesList.push(new mastermodelVM(result));
+                    self.resetForm();
+                    self.getData();
+                    $('#salesModal').modal('hide');
+                })
+                .fail(function (err) {
+                    console.log(err);
+                });
+        }
     }
+
+    self.DeleteSales = function (model) {
+        ajax.delete(baseUrl + "/Delete?id=" + model.id())
+            .done(function (result) {
+                self.SalesList.remove(function (item) {
+                    return item.id() === model.id();
+                });
+            }).fail(function (err) {
+                console.error("Error deleting sale:", err);
+            });
+    };
+
+
+
+    self.SelectSale = function (model) {
+        // Deep clone the model to avoid reference issues
+        var clonedModel = ko.toJS(model);
+
+        // Format the date properly for datetime-local input
+        if (clonedModel.salesDate) {
+            clonedModel.salesDate = new Date(clonedModel.salesDate).toISOString().slice(0, 16);
+        }
+
+        // Update NewSales with the cloned and formatted model
+        self.NewSales(new mastermodelVM(clonedModel));
+        self.IsUpdated(true);
+        $('#salesModal').modal('show');
+    }
+
 
     self.resetForm = () => {
         self.NewSales(new mastermodelVM());
