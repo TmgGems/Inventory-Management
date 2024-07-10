@@ -1,5 +1,7 @@
 using Inventory_Management.Data;
 using Inventory_Management.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +12,28 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IItemService, ItemService>();
-builder.Services.AddTransient<ISalesDetailsService,SalesDetailsService>();
+builder.Services.AddTransient<ISalesDetailsService, SalesDetailsService>();
+builder.Services.AddTransient<IUserService, UserService>();
+
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(config =>
+    {
+        //config.ExpireTimeSpan = TimeSpan.FromMinutes(25);
+        config.LoginPath = "/Login/Index";
+        config.AccessDeniedPath = "/home/AccessDenied";
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("admin",
+       policy => policy.RequireRole("admin"));
+
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+    .RequireAuthenticatedUser()
+    .Build();
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +51,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

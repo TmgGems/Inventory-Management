@@ -17,5 +17,9 @@ namespace Inventory_Management.Data
         public DbSet<SalesMasterModel> SalesMaster { get; set; }
 
         public DbSet<SalesDetailsModel> SalesDetails { get; set; }
+        public DbSet<Inventory_Management.Models.LogInModel> LogInModel { get; set; } = default!;
+        
+
+        public DbSet<UserModel> UerModel {  get; set; }
     }
 }
