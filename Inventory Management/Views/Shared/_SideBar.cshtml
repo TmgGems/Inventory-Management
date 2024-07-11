@@ -60,5 +60,18 @@
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
 
+
+    <!-- Nav Item - Logout -->
+    <li class="nav-item">
+        <a class="nav-link" href="#" onclick="document.getElementById('logoutForm').submit();">
+            <i class="fas fa-fw fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </li>
+
+    <!-- Logout Form -->
+    <form id="logoutForm" class="d-none" asp-controller="LogIn" asp-action="Logout" method="post">
+    </form>
+
 </ul>
 <!-- End of Sidebar -->

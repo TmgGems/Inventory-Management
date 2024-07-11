@@ -38,12 +38,13 @@ namespace Inventory_Management.Controllers
 
             return View("Index");
         }
-       
-       
-        public IActionResult Logout()
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Logout()
         {
-            HttpContext.SignOutAsync();
-            return RedirectToAction("Login");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "LogIn");
         }
 
         public IActionResult SignUp()
