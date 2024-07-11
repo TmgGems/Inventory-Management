@@ -26,10 +26,10 @@ namespace Inventory_Management.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool result = _userService.ValidateLogin(model.Username, model.PassWord);
-                if (result)
+                UserModel user = _userService.GetUserWithRole(model.Username, model.PassWord);
+                if (user != null)
                 {
-                    IdentityUtils.AddingClaimIdentity(model, HttpContext);
+                    IdentityUtils.AddingClaimIdentity(model,user.Roles ?? "user", HttpContext);
                     return Redirect("/");
                 }
                 else
@@ -59,7 +59,8 @@ namespace Inventory_Management.Controllers
                 UserModel model = new UserModel()
                 {
                     Username = modeldata.Email,
-                    Password = modeldata.Password
+                    Password = modeldata.Password,
+                    Roles = "user"
                 };
                bool result =  _userService.RegisterUser(model);
                 if(result)

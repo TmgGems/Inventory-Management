@@ -27,5 +27,10 @@ namespace Inventory_Management.Services
             bool validUser = _context.UerModel.Any(x => x.Username == userName && x.Password == password);
             return validUser;
         }
+
+        public UserModel GetUserWithRole(string userName, string password)
+        {
+            return _context.UerModel.FirstOrDefault(x => x.Username == userName && x.Password == password);
+        }
     }
 }

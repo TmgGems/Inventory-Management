@@ -7,7 +7,7 @@ namespace Inventory_Management.Utils
 {
     public class IdentityUtils
     {
-        public static void AddingClaimIdentity(LogInModel user,HttpContext httpcontext)
+        public static void AddingClaimIdentity(LogInModel user, string ? roles, HttpContext httpcontext)
         {
             //list of claims
             var userClaims = new List<Claim>()
@@ -18,11 +18,16 @@ namespace Inventory_Management.Utils
                     //new Claim(ClaimTypes.Role,"user"),
                     //new Claim(ClaimTypes.Role,"admin")
 
-                new Claim("Key",user.Username),
-                new Claim(ClaimTypes.Email,user.Username),
-                new Claim(ClaimTypes.Name,"Ghhyamjo Lama"),
-                new Claim(ClaimTypes.Role,"admin")
-                //new Claim(ClaimTypes.Role,roles)
+                //new Claim("Key",user.Username),
+                //new Claim(ClaimTypes.Email,user.Username),
+                //new Claim(ClaimTypes.Name,"Ghhyamjo Lama"),
+                //new Claim(ClaimTypes.Role,"admin")
+                ////new Claim(ClaimTypes.Role,roles)
+
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Email, user.Username),
+                new Claim(ClaimTypes.Role, roles ??"user")
+
                  };
 
             //create a identity claims

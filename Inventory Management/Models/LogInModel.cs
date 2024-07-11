@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Inventory_Management.Models
 {
@@ -7,9 +8,11 @@ namespace Inventory_Management.Models
         public int Id { get; set; }
 
         [EmailAddress]
+        [DisplayName("Email")]
         public string Username { get; set; }
 
         [DataType(DataType.Password)]
+        [DisplayName("Password")]
         public string PassWord {  get; set; }
     }
 }

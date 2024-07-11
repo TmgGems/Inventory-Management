@@ -26,12 +26,15 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("admin",
-       policy => policy.RequireRole("admin"));
+    //options.AddPolicy("admin",
+    //   policy => policy.RequireRole("admin"));
 
-    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-    .RequireAuthenticatedUser()
-    .Build();
+    //options.FallbackPolicy = new AuthorizationPolicyBuilder()
+    //.RequireAuthenticatedUser()
+    //.Build();
+
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("admin"));
+    options.AddPolicy("UserOnly", policy => policy.RequireRole("user"));
 });
 
 var app = builder.Build();
