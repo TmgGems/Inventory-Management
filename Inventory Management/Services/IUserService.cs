@@ -4,7 +4,7 @@ namespace Inventory_Management.Services
 {
     public interface IUserService
     {
-        bool ValidateLogin(string userName, string password);
+       // bool ValidateLogin(string userName, string password);
 
         bool RegisterUser(UserModel model);
 

@@ -9,6 +9,7 @@ namespace Inventory_Management.Utils
     {
         public static void AddingClaimIdentity(LogInModel user, string ? roles, HttpContext httpcontext)
         {
+
             //list of claims
             var userClaims = new List<Claim>()
                 {
@@ -30,9 +31,11 @@ namespace Inventory_Management.Utils
 
                  };
 
+
             //create a identity claims
             var claimsIdentity = new ClaimsIdentity(
             userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+
 
 
             //httcontext , current user is authentic user
@@ -41,6 +44,9 @@ namespace Inventory_Management.Utils
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(claimsIdentity)
             );
+
+
+
         }
     }
 }

@@ -22,11 +22,11 @@ namespace Inventory_Management.Services
             return false;
         }
 
-        public bool ValidateLogin(string userName, string password)
-        {
-            bool validUser = _context.UerModel.Any(x => x.Username == userName && x.Password == password);
-            return validUser;
-        }
+        //public bool ValidateLogin(string userName, string password)
+        //{
+        //    bool validUser = _context.UerModel.Any(x => x.Username == userName && x.Password == password);
+        //    return validUser;
+        //}
 
         public UserModel GetUserWithRole(string userName, string password)
         {
