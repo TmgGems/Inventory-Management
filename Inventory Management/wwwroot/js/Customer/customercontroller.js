@@ -23,7 +23,14 @@ var customerController = function () {
     }
     self.getData();
 
+    ko.validation.init();
+
     self.AddCustomer = function () {
+        var customer = self.NewCustomer();
+        if (!customer.isValid()) {
+            customer.errors.showAllMessages();
+            return;
+        }
         switch (self.mode()) {
             case mode.create:
                 ajax.post(baseUrl, ko.toJSON(self.NewCustomer()))
