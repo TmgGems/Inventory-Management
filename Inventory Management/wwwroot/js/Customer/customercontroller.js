@@ -12,6 +12,7 @@ var customerController = function () {
     self.IsUpdated = ko.observable(false);
     self.SelectedCustomer = ko.observable(new customermodel());
     self.mode = ko.observable(mode.create);
+    self.customerToDelete = ko.observable();
 
 
     //Fetch Data From Server
@@ -30,6 +31,7 @@ var customerController = function () {
                         self.CustomerList.push(new customermodel(result));
                         self.resetForm();
                         self.getData();
+                        //self.resetForm();
                         $('#customerModal').modal('hide');
                     })
                     .fail(function (err) {
@@ -41,7 +43,8 @@ var customerController = function () {
                     .done(function (result) {
                         self.CustomerList.replace(self.SelectedCustomer(), new customermodel(result));
                         self.resetForm();
-                        self.getData();
+                        //self.getData();
+                        //self.resetForm();
                         $('#customerModal').modal('hide');
                     })
                     .fail(function (err) {
@@ -55,14 +58,39 @@ var customerController = function () {
 
 
     self.DeleteCustomer = function (model) {
-        ajax.delete(baseUrl + "?id=" + model.id())
-            .done((result) => {
-                self.CustomerList.remove(model);
-            })
-            .fail((err) => {
-                console.log(err);
-            });
+        self.customerToDelete(model);
+        setTimeout(function () {
+            $('#deleteConfirmModal').modal('show');
+        }, 100);
     };
+
+    self.confirmDelete = function ()
+    {
+        var model = self.customerToDelete();
+        if (model) {
+            ajax.delete(baseUrl + "?id=" + model.id())
+                .done((result) => {
+                    self.CustomerList.remove(model);
+                    $('#deleteConfirmModal').modal('hide');
+                })
+                .fail((err) => {
+                    console.log(err);
+                    $('#deleteConfirmModal').modal('hide');
+                });
+        }
+    };
+
+    //self.DeleteCustomer = function (model) {
+    //    if (confirm("Are you sure want to delete the customer " + model.fullName() + "?")) {
+    //        ajax.delete(baseUrl + "?id=" + model.id())
+    //            .done((result) => {
+    //                self.CustomerList.remove(model);
+    //            })
+    //            .fail((err) => {
+    //                console.log(err);
+    //            });
+    //    }
+    //};
 
 
     self.SelectCustomer = (model) => {
