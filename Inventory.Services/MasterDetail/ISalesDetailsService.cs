@@ -1,6 +1,9 @@
-﻿using Inventory_Management.Models.ViewModels;
+﻿
+using Inventory.Services.Item.ViewModel;
+using Inventory.Services.MasterDetail.ViewModel;
+using Inventory.Services.Modell;
 
-namespace Inventory_Management.Services
+namespace Inventory.Services.MasterDetail
 {
     public interface ISalesDetailsService
     {
@@ -14,7 +17,7 @@ namespace Inventory_Management.Services
 
         int Delete(int id);
 
-        IEnumerable<GetCustomersNameVM> GetCustomersName();
+        public IEnumerable<GetCustomersNameVM> GetCustomersName();
 
         IEnumerable<GetItemsNameVM> GetItemsName();
     }

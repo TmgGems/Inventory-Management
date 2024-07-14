@@ -24,4 +24,9 @@
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Inventory.Db\Inventory.Db.csproj" />
+    <ProjectReference Include="..\Inventory.Services\Inventory.Services.csproj" />
+  </ItemGroup>
+
 </Project>

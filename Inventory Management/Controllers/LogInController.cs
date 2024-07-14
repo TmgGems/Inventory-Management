@@ -1,11 +1,11 @@
 ﻿using Inventory_Management.Models;
-using Inventory_Management.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Inventory_Management.Utils;
+using Inventory.Services.User;
 
 namespace Inventory_Management.Controllers
 {

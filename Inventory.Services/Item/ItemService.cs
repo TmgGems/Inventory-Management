@@ -1,7 +1,7 @@
 ﻿using Inventory_Management.Data;
 using Inventory_Management.Models;
 
-namespace Inventory_Management.Services
+namespace Inventory.Services.Item
 {
     public class ItemService : IItemService
     {

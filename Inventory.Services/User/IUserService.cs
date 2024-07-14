@@ -1,10 +1,10 @@
 ﻿using Inventory_Management.Models;
 
-namespace Inventory_Management.Services
+namespace Inventory.Services.User
 {
     public interface IUserService
     {
-       // bool ValidateLogin(string userName, string password);
+        // bool ValidateLogin(string userName, string password);
 
         bool RegisterUser(UserModel model);
 

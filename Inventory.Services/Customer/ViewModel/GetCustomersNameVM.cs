@@ -1,4 +1,6 @@
-﻿namespace Inventory_Management.Models.ViewModels
+﻿
+
+namespace Inventory.Services.Modell
 {
     public class GetCustomersNameVM
     {

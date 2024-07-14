@@ -1,6 +1,5 @@
-﻿using Inventory_Management.Models;
-using Inventory_Management.Services;
-using Microsoft.AspNetCore.Http;
+﻿using Inventory.Services.Customer;
+using Inventory_Management.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory_Management.Controllers.API

@@ -1,7 +1,9 @@
+using Inventory.Services.Customer;
+using Inventory.Services.Item;
+using Inventory.Services.MasterDetail;
+using Inventory.Services.User;
 using Inventory_Management.Data;
-using Inventory_Management.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

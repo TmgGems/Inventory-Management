@@ -1,6 +1,7 @@
-﻿using Inventory_Management.Models.ViewModels;
-using Inventory_Management.Services;
-using Microsoft.AspNetCore.Http;
+﻿using Inventory.Services.Item.ViewModel;
+using Inventory.Services.MasterDetail;
+using Inventory.Services.MasterDetail.ViewModel;
+using Inventory.Services.Modell;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory_Management.Controllers.API

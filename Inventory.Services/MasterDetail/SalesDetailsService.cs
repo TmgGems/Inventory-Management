@@ -1,8 +1,10 @@
-﻿using Inventory_Management.Data;
+﻿using Inventory.Services.Item.ViewModel;
+using Inventory.Services.MasterDetail.ViewModel;
+using Inventory.Services.Modell;
+using Inventory_Management.Data;
 using Inventory_Management.Models;
-using Inventory_Management.Models.ViewModels;
 
-namespace Inventory_Management.Services
+namespace Inventory.Services.MasterDetail
 {
     public class SalesDetailsService : ISalesDetailsService
     {
@@ -184,7 +186,7 @@ namespace Inventory_Management.Services
                 CustomerId = customer.Id,
                 CustomerName = customer.FullName
             }).ToList();
-            return customers;
+            return customers.AsEnumerable();
         }
 
         public IEnumerable<GetItemsNameVM> GetItemsName()
