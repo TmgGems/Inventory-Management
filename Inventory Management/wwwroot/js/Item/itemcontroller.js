@@ -14,6 +14,38 @@ var itemController = function () {
     self.mode = ko.observable(mode.create);
     self.searchTerm = ko.observable('');
     self.searchArrayList = ko.observableArray([]);
+    self.currentPage = ko.observable(1);
+    self.itemsPerPage = ko.observable(10);
+    self.totalPages = ko.computed(function () {
+        return Math.ceil(self.ItemList().length / self.itemsPerPage());
+    })
+
+
+    //computed observable for paginated items
+    self.pagedItems = ko.computed(function () {
+        var startIndex = (self.currentPage() - 1) * self.itemsPerPage();
+        return self.ItemList.slice(startIndex, startIndex + self.itemsPerPage());
+    });
+
+    // Navigation methods
+    self.nextPage = function () {
+        if (self.currentPage() < self.totalPages()) {
+            self.currentPage(self.currentPage() + 1);
+        }
+    };
+
+    self.previousPage = function () {
+        if (self.currentPage() > 1) {
+            self.currentPage(self.currentPage() - 1);
+        }
+    };
+
+    self.goToPage = function (page) {
+        self.currentPage(page);
+    };
+
+
+
 
     self.getSearchData = function () {
         if (self.searchTerm()) {
@@ -23,6 +55,7 @@ var itemController = function () {
                     console.log("Search results:", result);
                     self.searchArrayList(result.map(item => new itemModel(item)));
                     self.ItemList(self.searchArrayList());
+                    self.currentPage(1); // Reset to first page after search
                 })
                 .fail(function (error) {
                     console.error("Search failed:", error);
@@ -64,6 +97,7 @@ var itemController = function () {
     self.getData = function () {
         ajax.get(baseUrl).then(function (result) {
             self.ItemList(result.map(item => new itemModel(item)));
+            self.currentPage(1); // Reset to first page when new data is loaded
         });
     }
     self.getData();

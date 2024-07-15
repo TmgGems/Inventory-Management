@@ -13,6 +13,12 @@ namespace Inventory.Services.Item
         }
         public bool Add(ItemModel obj)
         {
+
+           var existingItem = _context.Items.FirstOrDefault( x => x.Name.ToLower() == obj.Name.ToLower() );
+            if(existingItem != null)
+            {
+                return false;
+            }
             _context.Items.Add(obj);
             _context.SaveChanges();
             return true;

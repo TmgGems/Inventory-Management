@@ -61,9 +61,9 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach:ItemList">
+        <tbody data-bind="foreach:pagedItems">
             <tr>
-                <td data-bind="text: $index() + 1"></td>
+                <td data-bind="text: $index() + ($parent.currentPage() - 1) * $parent.itemsPerPage() + 1"></td>
                 <td data-bind="text:name"></td>
                 <td data-bind="text:unit"></td>
                 <td data-bind="text:category"></td>
@@ -74,6 +74,22 @@
             </tr>
         </tbody>
     </table>
+    <!-- Pagination controls -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" data-bind="css: { disabled: currentPage() === 1 }">
+                <a class="page-link" href="#" data-bind="click: previousPage">&laquo; Previous</a>
+            </li>
+            <!-- ko foreach: ko.utils.range(1, totalPages) -->
+            <li class="page-item" data-bind="css: { active: $data === $parent.currentPage() }">
+                <a class="page-link" href="#" data-bind="text: $data, click: function() { $parent.goToPage($data) }"></a>
+            </li>
+            <!-- /ko -->
+            <li class="page-item" data-bind="css: { disabled: currentPage() === totalPages() }">
+                <a class="page-link" href="#" data-bind="click: nextPage">Next &raquo;</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 @section scripts
 {
