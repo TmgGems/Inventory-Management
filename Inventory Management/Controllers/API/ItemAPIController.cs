@@ -28,7 +28,7 @@ namespace Inventory_Management.Controllers.API
         }
 
         [HttpPost]
-        public bool Add(ItemModel obj)
+        public ItemResult Add(ItemModel obj)
         {
             return _itemService.Add(obj);
         }

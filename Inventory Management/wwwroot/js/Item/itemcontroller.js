@@ -107,10 +107,14 @@ var itemController = function () {
             case mode.create:
                 ajax.post(baseUrl, ko.toJSON(self.NewItem()))
                     .done(function (result) {
-                        self.ItemList.push(new itemModel(result));
-                        self.resetForm();
-                        self.getData();
-                        $('#itemModal').modal('hide');
+                        if (result.success) {
+                            self.ItemList.push(new itemModel(result.data));
+                            self.resetForm();
+                            self.getData();
+                            $('#itemModal').modal('hide');
+                        } else {
+                            alert("Item name already exists!");
+                        }
                     })
                     .fail(function (err) {
                         console.log(err);

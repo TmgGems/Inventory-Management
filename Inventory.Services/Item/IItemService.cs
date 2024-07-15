@@ -8,7 +8,7 @@ namespace Inventory.Services.Item
 
         ItemModel GetById(int id);
 
-        bool Add(ItemModel obj);
+        ItemResult Add(ItemModel obj);
 
         bool Updates(ItemModel obj);
 

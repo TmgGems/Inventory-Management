@@ -4,6 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Services.Item
 {
+    public class ItemResult
+    {
+        public bool Success { get; set; }
+        public ItemModel Data { get; set; }
+    }
     public class ItemService : IItemService
     {
         private readonly ApplicationDbContext _context;
@@ -11,17 +16,29 @@ namespace Inventory.Services.Item
         {
             _context = context;
         }
-        public bool Add(ItemModel obj)
-        {
+        //public bool Add(ItemModel obj)
+        //{
 
-           var existingItem = _context.Items.FirstOrDefault( x => x.Name.ToLower() == obj.Name.ToLower() );
-            if(existingItem != null)
+        //   var existingItem = _context.Items.FirstOrDefault( x => x.Name.ToLower() == obj.Name.ToLower() );
+        //    if(existingItem != null)
+        //    {
+        //        return false;
+        //    }
+        //    _context.Items.Add(obj);
+        //    _context.SaveChanges();
+        //    return true;
+        //}
+
+        public ItemResult Add(ItemModel obj)
+        {
+            var existingItem = _context.Items.FirstOrDefault(x => x.Name.ToLower() == obj.Name.ToLower());
+            if (existingItem != null)
             {
-                return false;
+                return new ItemResult { Success = false };
             }
             _context.Items.Add(obj);
             _context.SaveChanges();
-            return true;
+            return new ItemResult { Success = true, Data = obj };
         }
 
         public int Delete(int id)
