@@ -12,6 +12,55 @@ var itemController = function () {
     self.selectedList = ko.observable(new itemModel());
     self.IsUpdated = ko.observable(false);
     self.mode = ko.observable(mode.create);
+    self.searchTerm = ko.observable('');
+    self.searchArrayList = ko.observableArray([]);
+
+    self.getSearchData = function () {
+        if (self.searchTerm()) {
+            console.log("Searching for:", self.searchTerm());
+            ajax.get(baseUrl + "/Search?searchTerm=" + encodeURIComponent(self.searchTerm()))
+                .then(function (result) {
+                    console.log("Search results:", result);
+                    self.searchArrayList(result.map(item => new itemModel(item)));
+                    self.ItemList(self.searchArrayList());
+                })
+                .fail(function (error) {
+                    console.error("Search failed:", error);
+                });
+        } else {
+            console.log("No search term, getting all data");
+            self.getData();
+        }
+    }
+
+    self.clickedSearch = function () {
+        self.getSearchData();
+    }
+
+    //self.filteredItemList = ko.computed(function () {
+    //    var filter = self.searchTerm().toLowerCase();
+    //    if (!filter) {
+    //        return self.ItemList();
+    //    } else {
+    //        return ko.utils.arrayFilter(self.ItemList(), function (item) {
+    //            return item.name().toLowerCase().indexOf(filter) !== -1;
+    //        });
+    //    }
+    //});
+
+
+    //self.getSearchData = function ()
+    //{
+    //    ajax.get(baseUrl + "/Search").then(function (result) {
+    //        self.searchArrayList(result.map(item => new itemModel(item)))
+    //    });
+    //}
+
+    //self.clickedSearch = function () {
+    //    self.searchTerm(self.searchTerm());
+    //    self.getSearchData();
+    //}
+
     self.getData = function () {
         ajax.get(baseUrl).then(function (result) {
             self.ItemList(result.map(item => new itemModel(item)));

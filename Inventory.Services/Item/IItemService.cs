@@ -13,5 +13,7 @@ namespace Inventory.Services.Item
         bool Updates(ItemModel obj);
 
         int Delete(int id);
+
+        List<ItemModel> SearchItemName(string searchTerm);
     }
 }

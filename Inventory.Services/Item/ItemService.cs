@@ -1,5 +1,6 @@
 ﻿using Inventory_Management.Data;
 using Inventory_Management.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Services.Item
 {
@@ -43,6 +44,17 @@ namespace Inventory.Services.Item
                 return itemData;
             }
             return null;
+        }
+
+        public List<ItemModel> SearchItemItemName(string searchTerm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ItemModel> SearchItemName(string searchTerm)
+        {
+           var data = _context.Items.Where(x =>x.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
+            return data;
         }
 
         public bool Updates(ItemModel obj)

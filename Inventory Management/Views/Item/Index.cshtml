@@ -1,9 +1,18 @@
 ﻿
 <div class="container mt-4">
     <h1 class="text-center">Item Details</h1>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#itemModal" data-bind="click: setCreateMode">
-        Add New Items
-    </button>
+  
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#itemModal" data-bind="click: setCreateMode">
+                Add New Items
+            </button>
+        </div>
+        <div class="col-md-5 text-end">
+            <input type="text" class="form-control d-inline-block w-auto" placeholder="Search Item" data-bind="value: $root.searchTerm, valueUpdate: 'afterkeydown'" />
+            <button class="btn btn-secondary mx-3" data-bind="click:$root.clickedSearch">Search</button>
+        </div>
+    </div>
 
     <div class="modal fade" id="itemModal" tabindex="-1" aria-labelledby="itemModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg">

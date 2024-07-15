@@ -19,7 +19,7 @@
                         <div class="form-group">
                             <label for="fullName">Full Name:</label>
                             <input type="text" class="form-control" id="fullName" placeholder="Enter your full name"
-                                   data-bind="value: fullName, css: {  'is-invalid': fullName.isModified() && !fullName.isValid() }" />
+                                   data-bind="value: fullName" />
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -85,7 +85,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    @* <button data-bind="click: $root.DeleteCustomer" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal">Delete</button> *@
                     <button type="button" class="btn btn-danger" data-bind="click: confirmDelete">Delete</button>
                 </div>
             </div>

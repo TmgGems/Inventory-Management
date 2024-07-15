@@ -44,5 +44,11 @@ namespace Inventory_Management.Controllers.API
         {
             return _itemService.Delete(id);
         }
+
+        [HttpGet("Search")]
+        public List<ItemModel> SearchItemName(string searchTerm)
+        {
+            return _itemService.SearchItemName(searchTerm);
+        }
     }
 }
