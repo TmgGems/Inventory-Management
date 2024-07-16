@@ -11,14 +11,14 @@ var masterdetailsController = function () {
     self.SalesList = ko.observableArray([]);
     self.CustomersNameList = ko.observableArray([]);
     self.ItemsNameList = ko.observableArray([]);
-    self.NewSales = ko.observable(new mastermodelVM());
+    self.NewSales = ko.observable(new mastermodelVM({}, self));
     self.SelectedSales = ko.observable(new mastermodelVM());
     self.IsUpdated = ko.observable(false);
     //self.NewSales().sales.push(new detailsmodelVM());
     //Get All Data
     self.getData = function () {
         ajax.get(baseUrl + "/GetAll").then(function (result) {
-            self.SalesList(result.map(item => new mastermodelVM(item)));
+            self.SalesList(result.map(item => new mastermodelVM(item, self)));
         });
     }
     self.getData();
@@ -124,23 +124,18 @@ var masterdetailsController = function () {
     };
 
     self.SelectSale = function (model) {
-        // Deep clone the model to avoid reference issues
         var clonedModel = ko.toJS(model);
-
-        // Format the date properly for datetime-local input
         if (clonedModel.salesDate) {
             clonedModel.salesDate = new Date(clonedModel.salesDate).toISOString().slice(0, 16);
         }
-
-        // Update NewSales with the cloned and formatted model
-        self.NewSales(new mastermodelVM(clonedModel));
+        self.NewSales(new mastermodelVM(clonedModel, self));
         self.IsUpdated(true);
         $('#salesModal').modal('show');
     }
 
 
     self.resetForm = () => {
-        self.NewSales(new mastermodelVM());
+        self.NewSales(new mastermodelVM({}, self));
         self.IsUpdated(false);
     };
 
@@ -149,7 +144,7 @@ var masterdetailsController = function () {
         $('#salesModal').modal('show');
     };
     self.AddItem = function () {
-        self.NewSales().sales.push(new detailsmodelVM());
+        self.NewSales().sales.push(new detailsmodelVM({}, self));
     };
     self.removeItem = function (item) {
         self.NewSales().sales.remove(item);

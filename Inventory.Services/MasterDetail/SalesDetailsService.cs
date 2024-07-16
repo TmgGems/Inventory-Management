@@ -205,7 +205,8 @@ namespace Inventory.Services.MasterDetail
             var items = _context.Items.Select(item => new GetItemsNameVM
             {
                 ItemId = item.Id,
-                ItemName = item.Name
+                ItemName = item.Name,
+                ItemUnit = item.Unit
             }).ToList();
             return items;
         }
