@@ -64,6 +64,16 @@ var masterdetailsController = function () {
 
     self.AddSales = function () {
         var salesData = ko.toJS(self.NewSales());
+        if (!salesData.sales || salesData.sales.length === 0) {
+            alert("Add at least one item.");
+            return;
+        }
+
+        if (self.isNetAmountNegative()) {
+            alert("Net amount cannot be negative. Please adjust the discount or items.");
+            return;
+        }
+
         if (self.IsUpdated()) {
             ajax.put(baseUrl + "/Updates", JSON.stringify(salesData))
                 .done(function (result) {
@@ -108,7 +118,10 @@ var masterdetailsController = function () {
             });
     };
 
-
+    self.isNetAmountNegative = function () {
+        var netAmount = self.NewSales().netAmount();
+        return self.NewSales().netAmount() < 0;
+    };
 
     self.SelectSale = function (model) {
         // Deep clone the model to avoid reference issues
@@ -131,7 +144,10 @@ var masterdetailsController = function () {
         self.IsUpdated(false);
     };
 
-
+    self.setCreateMode = function () {
+        self.resetForm();
+        $('#salesModal').modal('show');
+    };
     self.AddItem = function () {
         self.NewSales().sales.push(new detailsmodelVM());
     };

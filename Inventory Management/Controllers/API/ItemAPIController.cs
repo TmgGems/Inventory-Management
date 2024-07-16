@@ -34,7 +34,7 @@ namespace Inventory_Management.Controllers.API
         }
 
         [HttpPut]
-        public bool Updates(ItemModel obj)
+        public ItemResult Updates(ItemModel obj)
         {
             return _itemService.Updates(obj);
         }

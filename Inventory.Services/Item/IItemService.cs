@@ -10,7 +10,7 @@ namespace Inventory.Services.Item
 
         ItemResult Add(ItemModel obj);
 
-        bool Updates(ItemModel obj);
+        ItemResult Updates(ItemModel obj);
 
         int Delete(int id);
 

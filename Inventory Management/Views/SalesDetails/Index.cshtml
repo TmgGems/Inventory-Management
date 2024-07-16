@@ -1,6 +1,6 @@
 ﻿<div class="container mt-4">
     <h2>Inventory Management System</h2>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#salesModal">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#salesModal" data-bind="click: setCreateMode">
         Create New Order
     </button>
 
@@ -72,8 +72,8 @@
                                         </select>
                                     </td>
                                     <td><input type="text" class="form-control" data-bind="value: unit" /></td>
-                                    <td><input type="number"  class="form-control" data-bind="value:quantity" /></td>
-                                    <td><input type="number"  class="form-control" data-bind="value:price" /></td>
+                                    <td><input type="number" class="form-control" data-bind="value:quantity" min="0" /></td>
+                                    <td><input type="number" class="form-control" data-bind="value:price" min="0" step="0.01" /></td>
                                     <td><input type="number" step="0.01" class="form-control" data-bind="value: amount, enable: false" /></td>
                                     <td>
                                         <button class="btn btn-danger btn-sm" data-bind="click: $root.removeItem">

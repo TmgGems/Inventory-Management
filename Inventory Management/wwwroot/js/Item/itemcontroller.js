@@ -123,10 +123,15 @@ var itemController = function () {
             case mode.update:
                 ajax.put(baseUrl, ko.toJSON(self.NewItem()))
                     .done(function (result) {
-                        self.ItemList.replace(self.selectedList(), new itemModel(result));
-                        self.resetForm();
-                        self.getData();
-                        $('#itemModal').modal('hide');
+                        if (result.success) {
+                            self.ItemList.replace(self.selectedList(), new itemModel(result));
+                            self.resetForm();
+                            self.getData();
+                            $('#itemModal').modal('hide');
+                        }
+                        else {
+                            alert("Name already exists!");
+                        }
                     })
                     .fail(function (err) {
                         console.log(err);

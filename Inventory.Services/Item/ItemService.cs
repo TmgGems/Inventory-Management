@@ -69,30 +69,28 @@ namespace Inventory.Services.Item
             return null;
         }
 
-        public List<ItemModel> SearchItemItemName(string searchTerm)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public List<ItemModel> SearchItemName(string searchTerm)
         {
-           var data = _context.Items.Where(x =>x.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
+            var data = _context.Items.Where(x => x.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
             return data;
         }
 
-        public bool Updates(ItemModel obj)
+        public ItemResult Updates(ItemModel obj)
         {
             var itemdata = _context.Items.Find(obj.Id);
-            if (itemdata != null)
+            bool existingItem = _context.Items.Any(x => x.Name.ToLower() == obj.Name.ToLower() && x.Id != obj.Id);
+            if (existingItem )
             {
-                itemdata.Name = obj.Name;
-                itemdata.Unit = obj.Unit;
-                itemdata.Category = obj.Category;
-                _context.Items.Update(itemdata);
-                _context.SaveChanges();
-                return true;
+                return new ItemResult { Success = false };
             }
-            return false;
+            itemdata.Name = obj.Name;
+            itemdata.Unit = obj.Unit;
+            itemdata.Category = obj.Category;
+            _context.Items.Update(itemdata);
+            _context.SaveChanges();
+            return new ItemResult { Success = true, Data = obj };
         }
     }
 }

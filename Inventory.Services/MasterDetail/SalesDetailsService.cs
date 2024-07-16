@@ -86,6 +86,11 @@ namespace Inventory.Services.MasterDetail
         }
         public bool Add(SalesMasterVM model)
         {
+            if(model.Sales.Count == 0)
+            { 
+                return false; 
+            }
+
             var masterData = new SalesMasterModel()
             {
                 Id = 0,
@@ -96,6 +101,7 @@ namespace Inventory.Services.MasterDetail
                 Discount = model.Discount,
                 NetAmount = model.NetAmount
             };
+           
             var masterdata = _context.SalesMaster.Add(masterData);
             _context.SaveChanges();
 
@@ -142,6 +148,11 @@ namespace Inventory.Services.MasterDetail
         }
         public bool Updates(SalesMasterVM obj)
         {
+            if (obj.Sales.Count == 0)
+            {
+                return false;
+            }
+
             var existingmasterdata = _context.SalesMaster.Find(obj.Id);
             if (existingmasterdata == null)
             {
