@@ -60,17 +60,21 @@ namespace Inventory.Services.PurchaseMasterDetail
                         {
                             currentItemInfo.quantity += itemdetail.Quantity;
                         }
-                        var updateinfo = new ItemCurrentInfo
+                        else
                         {
-                            ItemId = itemdetail.ItemId,
-                            quantity = itemdetail.Quantity
-                        };
-                        _context.ItemsCurrentInfo.Update(updateinfo);
-                        _context.SaveChanges();
+                            var updateinfo = new ItemCurrentInfo
+                            {
+                                ItemId = itemdetail.ItemId,
+                                quantity = itemdetail.Quantity
+                            };
+                            _context.ItemsCurrentInfo.Update(updateinfo);
+                            _context.SaveChanges();
+
+                        }
                         var historyEntry = new ItemCurrentInfoHistory
                         {
                             Id = 0,
-                            ItemId = itemdetail.Id,
+                            ItemId = itemdetail.ItemId,
                             Quantity = itemdetail.Quantity,
                             TransDate = DateTime.Now,
                             StockCheckOut = StockCheckOut.In,

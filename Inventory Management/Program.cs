@@ -1,6 +1,7 @@
 using Inventory.Services.Customer;
 using Inventory.Services.Item;
 using Inventory.Services.MasterDetail;
+using Inventory.Services.PurchaseMasterDetail;
 using Inventory.Services.User;
 using Inventory.Services.Vendor;
 using Inventory_Management.Data;
@@ -18,7 +19,7 @@ builder.Services.AddTransient<IItemService, ItemService>();
 builder.Services.AddTransient<ISalesDetailsService, SalesDetailsService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IVendor, Vendor>();
-
+builder.Services.AddTransient<IPurchaseMD, PurchaseMD>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(config =>
