@@ -17,7 +17,6 @@ namespace Inventory.Services.PurchaseMasterDetail.ViewModel
         public int Id { get; set; }
         public int VendorId { get; set; }
 
-        public string? VendorName { get; set; }
 
         public int InvoiceNumber { get; set; }
 
@@ -38,7 +37,6 @@ namespace Inventory.Services.PurchaseMasterDetail.ViewModel
        
         public int ItemId { get; set; }
         
-        public string ? ItemName {  get; set; }
         public string Unit { get; set; }
 
         public int Quantity { get; set; }
