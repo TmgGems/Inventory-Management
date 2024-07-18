@@ -2,6 +2,7 @@ using Inventory.Services.Customer;
 using Inventory.Services.Item;
 using Inventory.Services.MasterDetail;
 using Inventory.Services.User;
+using Inventory.Services.Vendor;
 using Inventory_Management.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IItemService, ItemService>();
 builder.Services.AddTransient<ISalesDetailsService, SalesDetailsService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IVendor, Vendor>();
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

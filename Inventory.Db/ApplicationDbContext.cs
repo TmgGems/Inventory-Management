@@ -1,5 +1,6 @@
 ﻿
 
+using Inventory.Entities;
 using Inventory_Management.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,5 +24,15 @@ namespace Inventory_Management.Data
         
 
         public DbSet<UserModel> UerModel {  get; set; }
+
+        public DbSet<VendorModel> Vendors {  get; set; }
+
+        public DbSet<ItemCurrentInfo> ItemsCurrentInfo {  get; set; }
+
+        public DbSet<ItemCurrentInfoHistory> ItemsHistoryInfo { get; set; }
+
+        public DbSet<PurchaseMasterModel> PurchaseMaster { get; set; }
+
+        public DbSet<PurchaseDetailModel> PurchaseDetail { get; set;}
     }
 }

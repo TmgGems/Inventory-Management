@@ -47,6 +47,7 @@ namespace Inventory.Services.MasterDetail
                                       Amount = d.Amount
                                   }).ToList();
                     datas.Add(data);
+
                 }
             }
             return datas;
