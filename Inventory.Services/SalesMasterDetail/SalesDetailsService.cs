@@ -21,7 +21,7 @@ namespace Inventory.Services.MasterDetail
             if (masterdata.Count() > 0)
             {
                 foreach (var item in masterdata)
-                {
+                {   
                     var customer = _context.Customers.FirstOrDefault(c => c.Id == item.CustomerId);
                     var detail = _context.SalesDetails.Where(x => x.SalesMasterId == item.Id).ToList();
                     var data = new SalesMasterVM()
