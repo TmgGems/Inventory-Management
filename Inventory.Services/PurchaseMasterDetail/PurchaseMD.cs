@@ -81,7 +81,7 @@ namespace Inventory.Services.PurchaseMasterDetail
                             Quantity = itemdetail.Quantity,
                             TransDate = DateTime.Now,
                             StockCheckOut = StockCheckOut.In,
-                            TransactionType = TransactionType.Sales
+                            TransactionType = TransactionType.Purchase
                         };
                         _context.ItemsHistoryInfo.Add(historyEntry);
                         _context.SaveChanges();
@@ -291,12 +291,23 @@ namespace Inventory.Services.PurchaseMasterDetail
 
         public IEnumerable<GetItemsNameVM> GetItemsName()
         {
-            throw new NotImplementedException();
+            var datas = _context.Items.Select(item => new GetItemsNameVM
+            {
+                ItemId = item.Id,
+                ItemName = item.Name,
+                ItemUnit = item.Unit
+            });
+            return datas;
         }
 
         public IEnumerable<GetVendorsName> GetVendorsName()
         {
-            throw new NotImplementedException();
+            var vendordatas = _context.Vendors.Select(vendor => new GetVendorsName
+            {
+                VendorId = vendor.Id,
+                VendorName = vendor.Name
+            });
+            return vendordatas;
         }
 
 

@@ -12,8 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ItemCurrentInfo\" />
-    <Folder Include="ItemCurrentInfoHistory\" />
     <Folder Include="User\ViewModel\" />
   </ItemGroup>
 

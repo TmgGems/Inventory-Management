@@ -1,0 +1,34 @@
+﻿<table class="table table-striped mt-4">
+    <thead>
+        <tr>
+            <th>S.N</th>
+            <th>Item Name</th>
+            <th>Quantity </th>
+            <th>Transaction Date</th>
+            <th>Stock CheckOut</th>
+            <th>Transaction Type</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach:ItemHistoryList">
+        <tr>
+            <td data-bind="text: $index() + 1"></td>
+            <td data-bind="text:itemName"></td>
+            <td data-bind="text:quantity"></td>
+            <td data-bind="text:transDate"></td>
+            <td data-bind="text:stockCheckOut"></td>
+            <td data-bind="text:transactionType"></td>
+        </tr>
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/js/knockout.js"></script>
+    <script src="~/js/itemshistory/itemhistorycontroller.js"></script>
+    <script src="~/js/itemshistory/itemhistorymodel.js"></script>
+    <script>
+        {
+            var obj = new itemhistorycontroller();
+            ko.applyBindings(obj);
+        }
+    </script>
+}

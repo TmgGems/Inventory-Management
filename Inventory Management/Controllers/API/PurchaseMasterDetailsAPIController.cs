@@ -1,5 +1,7 @@
-﻿using Inventory.Services.PurchaseMasterDetail;
+﻿using Inventory.Services.Item.ViewModel;
+using Inventory.Services.PurchaseMasterDetail;
 using Inventory.Services.PurchaseMasterDetail.ViewModel;
+using Inventory.Services.Vendor.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,6 +46,18 @@ namespace Inventory_Management.Controllers.API
         public bool Updates(PurchaseMasterVM obj)
         {
             return _purchaseService.Updates(obj);
+        }
+
+        [HttpGet]
+        public IEnumerable<GetItemsNameVM> GetItemsName()
+        {
+            return _purchaseService.GetItemsName();
+        }
+
+        [HttpGet]
+        public IEnumerable<GetVendorsName> GetVendorsName()
+        {
+            return _purchaseService.GetVendorsName();
         }
     }
 }

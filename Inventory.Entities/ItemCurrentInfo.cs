@@ -21,6 +21,10 @@ namespace Inventory.Entities
         [JsonIgnore]
         public ItemModel Item {  get; set; }
 
+
+        [NotMapped]
+        public string ItemName { get; set; }
+
         public int quantity {  get; set; }
     }
 }
