@@ -66,12 +66,12 @@ namespace Inventory.Services.PurchaseMasterDetail
                         }
                         else
                         {
-                            var updateinfo = new ItemCurrentInfo
+                            var addinfo = new ItemCurrentInfo
                             {
                                 ItemId = itemdetail.ItemId,
                                 quantity = itemdetail.Quantity
                             };
-                            _context.ItemsCurrentInfo.Add(updateinfo);
+                            _context.ItemsCurrentInfo.Add(addinfo);
                             _context.SaveChanges();
 
                         }
@@ -130,6 +130,9 @@ namespace Inventory.Services.PurchaseMasterDetail
                 }
                 _context.PurchaseDetail.RemoveRange(existingdetailsdata);
                 _context.SaveChanges();
+
+
+
                 _context.PurchaseMaster.Remove(existingMasterData);
                 _context.SaveChanges();
                 return id;
@@ -169,7 +172,7 @@ namespace Inventory.Services.PurchaseMasterDetail
                     ItemId = item.ItemId,
                     Quantity = item.Quantity,
                     TransDate = DateTime.Now,
-                    StockCheckOut = StockCheckOut.Out,
+                    StockCheckOut = StockCheckOut.In,
                     TransactionType = TransactionType.Sales
                 };
                 _context.ItemsHistoryInfo.Add(historyinfo);
@@ -190,7 +193,7 @@ namespace Inventory.Services.PurchaseMasterDetail
                               };
             _context.PurchaseDetail.AddRange(detailsdata);
             _context.SaveChanges();
-            foreach (var item in detailsdata)
+            foreach (var item in obj.PurchaseDetails)
             {
                 var itemcurrentinfo = _context.ItemsCurrentInfo.FirstOrDefault(x => x.ItemId == item.ItemId);
                 if (itemcurrentinfo != null)
@@ -198,19 +201,45 @@ namespace Inventory.Services.PurchaseMasterDetail
                     itemcurrentinfo.quantity += item.Quantity;
                     _context.ItemsCurrentInfo.Update(itemcurrentinfo);
                     _context.SaveChanges();
+
+                    var historyinfo = new ItemCurrentInfoHistory
+                    {
+                        Id = 0,
+                        ItemId = item.ItemId,
+                        Quantity = item.Quantity,
+                        TransDate = DateTime.Now,
+                        StockCheckOut = StockCheckOut.In,
+                        TransactionType = TransactionType.Purchase
+                    };
+                    _context.ItemsHistoryInfo.Add(historyinfo);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    var newitemsInfo = new ItemCurrentInfo
+                    {
+                        Id = 0,
+                        ItemId = item.ItemId,
+                        quantity = item.Quantity
+                    };
+                    _context.ItemsCurrentInfo.Add(newitemsInfo);
+                    _context.Add(newitemsInfo);
+                    _context.SaveChanges();
+
+                    var historyinfo = new ItemCurrentInfoHistory
+                    {
+                        Id = 0,
+                        ItemId = item.ItemId,
+                        Quantity = item.Quantity,
+                        TransDate = DateTime.Now,
+                        StockCheckOut = StockCheckOut.In,
+                        TransactionType = TransactionType.Purchase
+                    };
+                    _context.ItemsHistoryInfo.Add(historyinfo);
+                    _context.SaveChanges();
+
                 }
 
-                var historyinfo = new ItemCurrentInfoHistory
-                {
-                    Id = 0,
-                    ItemId = item.ItemId,
-                    Quantity = item.Quantity,
-                    TransDate = DateTime.Now,
-                    StockCheckOut = StockCheckOut.In,
-                    TransactionType = TransactionType.Purchase
-                };
-                _context.ItemsHistoryInfo.Add(historyinfo);
-                _context.SaveChanges();
             };
 
 

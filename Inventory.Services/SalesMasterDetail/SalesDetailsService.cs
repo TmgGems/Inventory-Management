@@ -1,4 +1,5 @@
-﻿using Inventory.Services.Item.ViewModel;
+﻿using Inventory.Entities;
+using Inventory.Services.Item.ViewModel;
 using Inventory.Services.MasterDetail.ViewModel;
 using Inventory.Services.Modell;
 using Inventory_Management.Data;
@@ -21,7 +22,7 @@ namespace Inventory.Services.MasterDetail
             if (masterdata.Count() > 0)
             {
                 foreach (var item in masterdata)
-                {   
+                {
                     var customer = _context.Customers.FirstOrDefault(c => c.Id == item.CustomerId);
                     var detail = _context.SalesDetails.Where(x => x.SalesMasterId == item.Id).ToList();
                     var data = new SalesMasterVM()
@@ -87,9 +88,9 @@ namespace Inventory.Services.MasterDetail
         }
         public bool Add(SalesMasterVM model)
         {
-            if(model.Sales.Count == 0)
-            { 
-                return false; 
+            if (model.Sales.Count == 0)
+            {
+                return false;
             }
 
             var masterData = new SalesMasterModel()
@@ -102,7 +103,7 @@ namespace Inventory.Services.MasterDetail
                 Discount = model.Discount,
                 NetAmount = model.NetAmount
             };
-           
+
             var masterdata = _context.SalesMaster.Add(masterData);
             _context.SaveChanges();
 
@@ -121,11 +122,32 @@ namespace Inventory.Services.MasterDetail
                               };
                 _context.SalesDetails.AddRange(details);
                 _context.SaveChanges();
-                return true;
-            }
-            return false;
-        }
 
+                foreach (var item in model.Sales)
+                {
+                    var currentItemInfo = _context.ItemsCurrentInfo.FirstOrDefault(x => x.ItemId == item.ItemId);
+                    if (currentItemInfo != null)
+                    {
+                        currentItemInfo.quantity -= item.quantity;
+                        _context.ItemsCurrentInfo.Update(currentItemInfo);
+                        _context.SaveChanges();
+                    }
+
+                    var historyInfo = new ItemCurrentInfoHistory
+                    {
+                        Id = 0,
+                        ItemId = item.ItemId,
+                        Quantity = item.quantity,
+                        TransDate = DateTime.Now,
+                        StockCheckOut = StockCheckOut.Out,
+                        TransactionType = TransactionType.Sales
+                    };
+                    _context.ItemsHistoryInfo.Add(historyInfo);
+                    _context.SaveChanges();
+                }
+            }
+            return true;
+        }
         public int Delete(int id)
         {
             var existingmasterdata = _context.SalesMaster.Find(id);
@@ -138,6 +160,29 @@ namespace Inventory.Services.MasterDetail
                 var existingdetailsdata = _context.SalesDetails.Where(x => x.SalesMasterId == existingmasterdata.Id).ToList();
                 if (existingdetailsdata.Count > 0)
                 {
+                    foreach (var item in existingdetailsdata)
+                    {
+
+                        var CurrentItemsInfo = _context.ItemsCurrentInfo.FirstOrDefault(x => x.ItemId == item.ItemId);
+                        if (CurrentItemsInfo != null)
+                        {
+                            CurrentItemsInfo.quantity -= item.quantity;
+                            _context.ItemsCurrentInfo.Update(CurrentItemsInfo);
+                            _context.SaveChanges();
+                        }
+                        var historyInfoData = new ItemCurrentInfoHistory
+                        {
+                            Id = 0,
+                            ItemId = item.ItemId,
+                            Quantity = item.quantity,
+                            TransDate = DateTime.Now,
+                            StockCheckOut = StockCheckOut.Out,
+                            TransactionType = TransactionType.Sales
+                        };
+                        _context.ItemsHistoryInfo.Add(historyInfoData);
+                        _context.SaveChanges();
+
+                    }
                     _context.SalesDetails.RemoveRange(existingdetailsdata);
                     _context.SaveChanges();
                 };
@@ -147,6 +192,8 @@ namespace Inventory.Services.MasterDetail
                 return 1;
             }
         }
+
+
         public bool Updates(SalesMasterVM obj)
         {
             if (obj.Sales.Count == 0)
@@ -172,8 +219,34 @@ namespace Inventory.Services.MasterDetail
                 _context.SaveChanges();
 
 
-                var existingdetailsdata = _context.SalesDetails.Where(x => x.SalesMasterId == existingmasterdata.Id);
-                _context.SalesDetails.RemoveRange(existingdetailsdata);
+                var existingDetailsData = _context.SalesDetails.Where(x => x.SalesMasterId == existingmasterdata.Id).ToList();
+
+                foreach (var item in existingDetailsData)
+                {
+                    var itemcurrentinfo = _context.ItemsCurrentInfo.FirstOrDefault(x => x.ItemId == item.ItemId);
+                    if (itemcurrentinfo != null)
+                    {
+                        itemcurrentinfo.quantity += item.quantity;
+                        _context.ItemsCurrentInfo.Update(itemcurrentinfo);
+                        _context.SaveChanges();
+                    }
+
+                    var historyinfo = new ItemCurrentInfoHistory
+                    {
+                        Id = 0,
+                        ItemId = item.ItemId,
+                        Quantity = item.quantity,
+                        TransDate = DateTime.Now,
+                        StockCheckOut = StockCheckOut.In,
+                        TransactionType = TransactionType.Sales
+                    };
+                    _context.ItemsHistoryInfo.Add(historyinfo);
+                    _context.SaveChanges();
+                };
+
+                _context.SalesDetails.RemoveRange(existingDetailsData);
+
+
                 var details = from c in obj.Sales
                               select new SalesDetailsModel
                               {
@@ -187,6 +260,54 @@ namespace Inventory.Services.MasterDetail
                               };
                 _context.SalesDetails.AddRange(details);
                 _context.SaveChanges();
+                foreach (var item in obj.Sales)
+                {
+                    var currentItemInfo = _context.ItemsCurrentInfo.FirstOrDefault(x => x.ItemId == item.ItemId);
+                    if (currentItemInfo != null)
+                    {
+
+                        currentItemInfo.quantity -= item.quantity;
+                        _context.ItemsCurrentInfo.Update(currentItemInfo);
+                        _context.SaveChanges();
+
+
+                        var historyInfoData = new ItemCurrentInfoHistory
+                        {
+                            Id = 0,
+                            ItemId = item.ItemId,
+                            Quantity = item.quantity,
+                            TransDate = DateTime.Now,
+                            StockCheckOut = StockCheckOut.In,
+                            TransactionType = TransactionType.Sales
+                        };
+                        _context.ItemsHistoryInfo.Add(historyInfoData);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        var newitemsInfo = new ItemCurrentInfo
+                        {
+                            Id = 0,
+                            ItemId = item.ItemId,
+                            quantity = item.quantity
+                        };
+                        _context.ItemsCurrentInfo.Add(newitemsInfo);
+                        _context.Add(newitemsInfo);
+                        _context.SaveChanges();
+
+                        var historyInfoData = new ItemCurrentInfoHistory
+                        {
+                            Id = 0,
+                            ItemId = item.ItemId,
+                            Quantity = item.quantity,
+                            TransDate = DateTime.Now,
+                            StockCheckOut = StockCheckOut.In,
+                            TransactionType = TransactionType.Sales
+                        };
+                        _context.ItemsHistoryInfo.Add(historyInfoData);
+                        _context.SaveChanges();
+                    }
+                }
                 return true;
             };
         }
