@@ -49,6 +49,7 @@ namespace Inventory.Services.PurchaseMasterDetail
                                       Unit = c.Unit,
                                       Quantity = c.Quantity,
                                       Amount = c.Amount,
+                                      Price = c.Price,
                                       PurchaseMasterId = masterdata.Entity.Id
                                   };
                     _context.PurchaseDetail.AddRange(details);
@@ -121,7 +122,7 @@ namespace Inventory.Services.PurchaseMasterDetail
                         Quantity = item.Quantity,
                         TransDate = DateTime.Now,
                         StockCheckOut = StockCheckOut.Out,
-                        TransactionType = TransactionType.Sales
+                        TransactionType = TransactionType.Purchase
                     };
                     _context.ItemsHistoryInfo.Add(itemsinfohistory);
                     _context.SaveChanges();
@@ -183,6 +184,7 @@ namespace Inventory.Services.PurchaseMasterDetail
                                   ItemId = c.ItemId,
                                   Unit = c.Unit,
                                   Quantity = c.Quantity,
+                                  Price = c.Price,
                                   Amount = c.Amount,
                                   PurchaseMasterId = masterdata.Entity.Id
                               };
@@ -245,6 +247,7 @@ namespace Inventory.Services.PurchaseMasterDetail
                                                        ItemName = d.Item.Name,
                                                        Unit = d.Unit,
                                                        Quantity = d.Quantity,
+                                                       Price = d.Price,
                                                        Amount = d.Amount
                                                    }).ToList();
                     dataList.Add(masterdatas);
@@ -283,6 +286,7 @@ namespace Inventory.Services.PurchaseMasterDetail
                                                    ItemName = detail.Item.Name,
                                                    Unit = detail.Unit,
                                                    Quantity = detail.Quantity,
+                                                   Price = detail.Price,
                                                    Amount = detail.Amount
                                                }).ToList();
                 return masterdatas;

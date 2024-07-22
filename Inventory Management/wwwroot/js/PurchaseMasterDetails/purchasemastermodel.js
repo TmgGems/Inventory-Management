@@ -4,13 +4,19 @@ var masterpurchaseVM = function (item)
 {
     var self = this;
     item = item || {};
+    self.id = ko.observable(item.id || 0);
     self.vendorId = ko.observable(item.vendorId || 0);
     self.vendorName = ko.observable(item.vendorName || '');
     self.invoiceNumber = ko.observable(item.invoiceNumber || 0);
     self.billAmount = ko.observable(item.billAmount || 0);
     self.discount = ko.observable(item.discount || 0);
     self.netAmount = ko.observable(item.netAmount || 0);
-    self.purchaseDetails = ko.observableArray(item.purchaseDetails || []);
+    
+
+    self.purchaseDetails = ko.observableArray((item.purchaseDetails || []).map(function (detail) {
+        return new detailpurchaseVM(detail);
+    }));
+
 
     // Compute bill amount whenever purchase details change
     self.purchaseDetails.subscribe(function () {
@@ -36,23 +42,43 @@ var masterpurchaseVM = function (item)
     self.discount.subscribe(self.updateNetAmount);
 }
 
-var detailpurchaseVM = function (item)
-{
+var detailpurchaseVM = function (item) {
     var self = this;
     item = item || {};
     self.itemId = ko.observable(item.itemId || 0);
     self.itemName = ko.observable(item.itemName || '');
     self.unit = ko.observable(item.unit || '');
     self.quantity = ko.observable(item.quantity || 0);
-    self.price = ko.observable(item.price || 0);
+    self.price = ko.observable(item.price || 0); // Ensure price is initialized
     self.amount = ko.computed(function () {
         return (parseFloat(self.quantity()) || 0) * (parseFloat(self.price()) || 0);
-        self.quantity * self.price();
     });
 
-    self.quantity.subscribe(self.amount);
-    self.price.subscribe(self.amount);
+    self.quantity.subscribe(function () {
+        self.amount.notifySubscribers();
+    });
+    self.price.subscribe(function () {
+        self.amount.notifySubscribers();
+    });
+}
+var detailpurchaseVM = function (item) {
+    var self = this;
+    item = item || {};
+    self.itemId = ko.observable(item.itemId || 0);
+    self.itemName = ko.observable(item.itemName || '');
+    self.unit = ko.observable(item.unit || '');
+    self.quantity = ko.observable(item.quantity || 0);
+    self.price = ko.observable(item.price || 0); // Ensure price is initialized
+    self.amount = ko.computed(function () {
+        return (parseFloat(self.quantity()) || 0) * (parseFloat(self.price()) || 0);
+    });
 
+    self.quantity.subscribe(function () {
+        self.amount.notifySubscribers();
+    });
+    self.price.subscribe(function () {
+        self.amount.notifySubscribers();
+    });
 }
 
 
