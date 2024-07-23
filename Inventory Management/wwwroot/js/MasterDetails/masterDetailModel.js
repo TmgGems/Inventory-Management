@@ -30,7 +30,7 @@ var detailsmodelVM = function (item, parent) {
     self.unit = ko.observable(item.unit || '');
     self.quantity = ko.observable(item.quantity || 0);
     self.price = ko.observable(item.price || 0);
-
+    self.availableQuantity = ko.observable(item.availableQuantity || 0); 
     self.selectedItem = ko.computed(function () {
         return parent.ItemsNameList().find(function (listItem) {
             return listItem.itemId() == self.itemId();
@@ -41,6 +41,7 @@ var detailsmodelVM = function (item, parent) {
         var selected = self.selectedItem();
         if (selected) {
             self.unit(selected.itemUnit());
+            self.availableQuantity(selected.availableQuantity());
         }
     });
 
@@ -62,5 +63,5 @@ var itemnamemodel = function (item) {
     self.itemId = ko.observable(item.itemId || 0);
     self.itemName = ko.observable(item.itemName || '');
     self.itemUnit = ko.observable(item.itemUnit || '');
-    self.itemQuantity = ko.observable(item.quantity || 0);
+    self.availableQuantity = ko.observable(item.quantity || 0);
 }
