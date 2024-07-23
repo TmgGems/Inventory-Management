@@ -25,7 +25,7 @@ var purchasemasterdetailcontroller = function () {
             return;
         }
         if (self.IsUpdated()) {
-            debugger;
+         
             ajax.put(baseUrl + "/Updates", JSON.stringify(purchaseData))
                 .done(function (result) {
                     var updatedPurchase = new masterpurchaseVM(result);
