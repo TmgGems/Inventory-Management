@@ -62,4 +62,5 @@ var itemnamemodel = function (item) {
     self.itemId = ko.observable(item.itemId || 0);
     self.itemName = ko.observable(item.itemName || '');
     self.itemUnit = ko.observable(item.itemUnit || '');
+    self.itemQuantity = ko.observable(item.quantity || 0);
 }

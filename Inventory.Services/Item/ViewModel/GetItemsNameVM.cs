@@ -7,5 +7,7 @@
         public string ItemName { get; set; }
 
         public string ItemUnit {  get; set; }
+
+        public int quantity { get; set; }
     }
 }

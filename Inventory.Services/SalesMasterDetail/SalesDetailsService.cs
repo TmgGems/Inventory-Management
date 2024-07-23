@@ -383,11 +383,15 @@ namespace Inventory.Services.MasterDetail
 
         public IEnumerable<GetItemsNameVM> GetItemsName()
         {
-            var items = _context.Items.Select(item => new GetItemsNameVM
+            var items = (from item in _context.Items
+            join Itemsquantity in _context.ItemsCurrentInfo
+            on item.Id equals Itemsquantity.ItemId
+            select new GetItemsNameVM
             {
                 ItemId = item.Id,
                 ItemName = item.Name,
-                ItemUnit = item.Unit
+                ItemUnit = item.Unit,
+                quantity = Itemsquantity.quantity
             }).ToList();
             return items;
         }
