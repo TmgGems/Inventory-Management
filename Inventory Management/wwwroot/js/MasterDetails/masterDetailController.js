@@ -77,35 +77,92 @@ var masterdetailsController = function () {
         if (self.IsUpdated()) {
             ajax.put(baseUrl + "/Updates", JSON.stringify(salesData))
                 .done(function (result) {
-                    var updatedSales = new mastermodelVM(result);
-                    var index = self.SalesList().findIndex(function (item) {
-                        return item.id() === updatedSales.id();
-                    });
-                    if (index >= 0) {
-                        self.SalesList.replace(self.SalesList()[index], updatedSales);
+                    debugger
+                    if (result.success) {
+                        var updatedSales = new mastermodelVM(result);
+                        var index = self.SalesList().findIndex(function (item) {
+                            return item.id() === updatedSales.id();
+                        });
+                        if (index >= 0) {
+                            self.SalesList.replace(self.SalesList()[index], updatedSales);
+                        }
+                        self.resetForm();
+                        self.getData();
+                        $('#salesModal').modal('hide');
+                        alert(result.message); // Display success message
+                    } else {
+                        alert(result.message || "Failed to update sales."); // Display error message
                     }
-                    self.resetForm();
-                    self.getData();
-                    $('#salesModal').modal('hide');
                 })
                 .fail(function (err) {
                     console.error("Error updating sales:", err);
+                    alert("Failed to update sales: " + (err.responseJSON ? err.responseJSON.message : err.statusText));
                 });
-        }
+        } 
         else {
 
             ajax.post(baseUrl + "/Add", ko.toJSON(self.NewSales()))
                 .done(function (result) {
-                    self.SalesList.push(new mastermodelVM(result));
-                    self.resetForm();
-                    self.getData();
-                    $('#salesModal').modal('hide');
+                    if (result.success) {
+                        self.SalesList.push(new mastermodelVM(result));
+                        self.resetForm();
+                        self.getData();
+                        $('#salesModal').modal('hide');
+                        alert(result.message); // Display success message
+                    } else {
+                        alert(result.message || "Failed to add sales."); // Display error message
+                    }
                 })
                 .fail(function (err) {
                     console.log(err);
+                    alert("Failed to add sales: " + (err.responseJSON ? err.responseJSON.message : err.statusText));
                 });
         }
-    }
+    };
+
+
+    //self.AddItem = function () {
+    //    switch (self.mode()) {
+    //        case mode.create:
+    //            ajax.post(baseUrl, ko.toJSON(self.NewItem()))
+    //                .done(function (result) {
+    //                    if (result.success) {
+    //                        console.log(result.success);
+    //                        self.ItemList.push(new itemModel(result.data));
+    //                        self.resetForm();
+    //                        self.getData();
+    //                        $('#itemModal').modal('hide');
+    //                    } else {
+    //                        alert(result.message || "An error occurred.");
+    //                    }
+    //                })
+    //                .fail(function (err) {
+    //                    console.log(err);
+    //                    alert("Failed to add item: " + (err.responseJSON ? err.responseJSON.message : err.statusText));
+    //                });
+    //            break;
+    //        case mode.update:
+    //            ajax.put(baseUrl, ko.toJSON(self.NewItem()))
+    //                .done(function (result) {
+    //                    if (result.success) {
+    //                        self.ItemList.replace(self.selectedList(), new itemModel(result.data));
+    //                        self.resetForm();
+    //                        self.getData();
+    //                        $('#itemModal').modal('hide');
+    //                    } else {
+    //                        alert(result.message || "An error occurred.");
+    //                    }
+    //                })
+    //                .fail(function (err) {
+    //                    console.log(err);
+    //                    alert("Failed to update item: " + (err.responseJSON ? err.responseJSON.message : err.statusText));
+    //                });
+    //            break;
+    //        default:
+    //            console.log("Invalid mode");
+    //    }
+    //};
+
 
     self.DeleteSales = function (model) {
         ajax.delete(baseUrl + "/Delete?id=" + model.id())

@@ -11,9 +11,9 @@ namespace Inventory.Services.MasterDetail
 
         SalesMasterVM GetById(int id);
 
-        bool Add(SalesMasterVM model);
+        ResponseModel Add(SalesMasterVM model);
 
-        bool Updates(SalesMasterVM obj);
+        ResponseModel Updates(SalesMasterVM obj);
 
         int Delete(int id);
 

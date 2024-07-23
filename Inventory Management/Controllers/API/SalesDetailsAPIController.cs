@@ -29,13 +29,13 @@ namespace Inventory_Management.Controllers.API
         }
 
         [HttpPost]
-        public bool Add(SalesMasterVM model)
+        public ResponseModel Add(SalesMasterVM model)
         {
             return _salesDetailsService.Add(model);
         }
 
         [HttpPut]
-        public bool Updates(SalesMasterVM obj)
+        public ResponseModel Updates(SalesMasterVM obj)
         {
             return _salesDetailsService.Updates(obj);
         }

@@ -7,6 +7,13 @@ using Inventory_Management.Models;
 
 namespace Inventory.Services.MasterDetail
 {
+
+    public class ResponseModel
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+    }
+
     public class SalesDetailsService : ISalesDetailsService
     {
         private readonly ApplicationDbContext _context;
@@ -14,6 +21,18 @@ namespace Inventory.Services.MasterDetail
         {
             _context = context;
         }
+
+        private string GetItemName(int ItemId)
+        {
+            var itemsdata = _context.Items.FirstOrDefault(x => x.Id == ItemId);
+            return itemsdata.Name;
+        }
+        private bool IsItemAvailable(int itemId, int quantity)
+        {
+            var currentItemInfo = _context.ItemsCurrentInfo.FirstOrDefault(x => x.ItemId == itemId);
+            return currentItemInfo != null && currentItemInfo.quantity >= quantity;
+        }
+
         public List<SalesMasterVM> GetAll()
         {
             List<SalesMasterVM> datas = new List<SalesMasterVM>();
@@ -86,13 +105,21 @@ namespace Inventory.Services.MasterDetail
                 return data;
             }
         }
-        public bool Add(SalesMasterVM model)
+        public ResponseModel Add(SalesMasterVM model)
         {
             if (model.Sales.Count == 0)
             {
-                return false;
+                return new ResponseModel { Success = false, Message = "No items to add." };
             }
 
+            foreach (var item in model.Sales)
+            {
+                if (!IsItemAvailable(item.ItemId, item.quantity))
+                {
+                    string itemName = GetItemName(item.ItemId);
+                    return new ResponseModel { Success = false, Message = $"Item {itemName} is not available in the required quantity." };
+                }
+            }
             var masterData = new SalesMasterModel()
             {
                 Id = 0,
@@ -125,6 +152,8 @@ namespace Inventory.Services.MasterDetail
 
                 foreach (var item in model.Sales)
                 {
+
+
                     var currentItemInfo = _context.ItemsCurrentInfo.FirstOrDefault(x => x.ItemId == item.ItemId);
                     if (currentItemInfo != null)
                     {
@@ -146,7 +175,7 @@ namespace Inventory.Services.MasterDetail
                     _context.SaveChanges();
                 }
             }
-            return true;
+            return new ResponseModel { Success = true, Message = "Sales added successfully." };
         }
         public int Delete(int id)
         {
@@ -194,20 +223,47 @@ namespace Inventory.Services.MasterDetail
         }
 
 
-        public bool Updates(SalesMasterVM obj)
+        public ResponseModel Updates(SalesMasterVM obj)
         {
             if (obj.Sales.Count == 0)
             {
-                return false;
+                return new ResponseModel { Success = false, Message = "No items to update." };
             }
 
             var existingmasterdata = _context.SalesMaster.Find(obj.Id);
             if (existingmasterdata == null)
             {
-                return false;
+                return new ResponseModel { Success = false, Message = "No items to update." };
             }
             else
             {
+                // Check item availability
+                foreach (var item in obj.Sales)
+                {
+                    var existingItem = _context.SalesDetails
+                        .FirstOrDefault(x => x.SalesMasterId == existingmasterdata.Id && x.ItemId == item.ItemId);
+
+                    int quantityDifference = existingItem != null ? item.quantity - existingItem.quantity : item.quantity;
+
+                    //int quantityDifference;
+                    //if (existingItem != null)
+                    //{
+                    //    quantityDifference = item.quantity - existingItem.quantity;
+                    //}
+                    //else
+                    //{
+                    //    quantityDifference = item.quantity;
+                    //}
+
+
+
+                    if (quantityDifference > 0 && !IsItemAvailable(item.ItemId, quantityDifference))
+                    {
+                        string itemName = GetItemName(item.ItemId);
+                        return new ResponseModel { Success = false, Message = $"Item {itemName} is not available in the required quantity." };
+                    }
+                }
+
                 existingmasterdata.SalesDate = obj.SalesDate;
                 existingmasterdata.CustomerId = obj.CustomerId;
                 existingmasterdata.InvoiceNumber = obj.InvoiceNumber;
@@ -262,6 +318,9 @@ namespace Inventory.Services.MasterDetail
                 _context.SaveChanges();
                 foreach (var item in obj.Sales)
                 {
+
+
+
                     var currentItemInfo = _context.ItemsCurrentInfo.FirstOrDefault(x => x.ItemId == item.ItemId);
                     if (currentItemInfo != null)
                     {
@@ -308,7 +367,7 @@ namespace Inventory.Services.MasterDetail
                         _context.SaveChanges();
                     }
                 }
-                return true;
+                return new ResponseModel { Success = true, Message = "Sales updated successfully." };
             };
         }
 
