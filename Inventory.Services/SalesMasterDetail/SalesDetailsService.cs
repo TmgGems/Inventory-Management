@@ -245,17 +245,6 @@ namespace Inventory.Services.MasterDetail
 
                     int quantityDifference = existingItem != null ? item.quantity - existingItem.quantity : item.quantity;
 
-                    //int quantityDifference;
-                    //if (existingItem != null)
-                    //{
-                    //    quantityDifference = item.quantity - existingItem.quantity;
-                    //}
-                    //else
-                    //{
-                    //    quantityDifference = item.quantity;
-                    //}
-
-
 
                     if (quantityDifference > 0 && !IsItemAvailable(item.ItemId, quantityDifference))
                     {

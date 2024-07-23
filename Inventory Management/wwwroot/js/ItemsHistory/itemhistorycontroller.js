@@ -3,17 +3,34 @@ var itemhistorycontroller = function () {
     var self = this;
     const baseUrl = "/api/ItemsInfoHistoryAPI";
     self.ItemHistoryList = ko.observableArray([]);
-
-
+    self.searchTerm = ko.observable('');
+    self.searchArrayList = ko.observableArray([]);
 
 
     self.getData = function () {
-        ajax.get(baseUrl).then(function (result) {
+        ajax.get(baseUrl + "/GetAll").then(function (result) {
             self.ItemHistoryList(result.map(item => new itemhistorymodel(item)));
         });
     }
 
     self.getData();
+
+    self.getSearchData = function ()
+    {
+        if (self.searchTerm()) {
+            ajax.get(baseUrl + "/SearchItemName?searchedItem=" + encodeURIComponent(self.searchTerm()))
+                .then(function (result) {
+                    console.log("Search Results", result);
+                    self.searchArrayList(result.map(item => new itemhistorymodel(item)));
+                    self.ItemHistoryList(self.searchArrayList());
+                })
+        }
+    }
+
+    self.clickedSearch = function ()
+    {
+        self.getSearchData();
+    }
 
 }
 var ajax = {

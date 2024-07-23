@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory_Management.Controllers.API
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[Action]")]
     [ApiController]
     public class ItemsInfoHistoryAPIController : ControllerBase
     {
@@ -39,6 +39,35 @@ namespace Inventory_Management.Controllers.API
                               TransactionType = infoHistory.TransactionType
                           }).ToList();
 
+            return result;
+        }
+
+        [HttpGet]
+        public List<ItemCurrentInfoHistory> SearchItemName(string searchedItem)
+        {
+            var itemid = _context.Items
+                            .Where(x => x.Name.ToLower() == searchedItem.ToLower())
+                            .Select(i => i.Id)
+                            .ToList();
+
+            var historydata = _context.ItemsHistoryInfo
+                .Where(x => itemid.Contains(x.ItemId)).ToList();
+
+            var items = _context.Items.ToList();
+            var result = (from infoHistory in historydata
+                          join item in items on infoHistory.ItemId equals item.Id
+                          select new ItemCurrentInfoHistory
+                          {
+                              Id = infoHistory.Id,
+                              ItemId = infoHistory.ItemId,
+                              Item = item,
+                              ItemName = item.Name,
+                              Quantity = infoHistory.Quantity,
+                              TransDate = infoHistory.TransDate,
+                              StockCheckOut = infoHistory.StockCheckOut,
+                              TransactionType = infoHistory.TransactionType
+
+                          }).ToList();
             return result;
         }
 
