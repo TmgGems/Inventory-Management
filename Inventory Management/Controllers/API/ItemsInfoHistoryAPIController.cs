@@ -71,5 +71,43 @@ namespace Inventory_Management.Controllers.API
             return result;
         }
 
+
+
+        [HttpGet]
+        public List<ItemCurrentInfoHistory> SearchTransType(string transType)
+        {
+            // Convert the string transType to the enum TransactionType
+            if (Enum.TryParse(transType, true, out TransactionType transactionType))
+            {
+             var historydata = _context.ItemsHistoryInfo
+            .Where(x => x.TransactionType == transactionType)
+            .ToList();
+
+                var items = _context.Items.ToList();
+                var result = (from infoHistory in historydata
+                              join item in items on infoHistory.ItemId equals item.Id
+                              select new ItemCurrentInfoHistory
+                              {
+                                  Id = infoHistory.Id,
+                                  ItemId = infoHistory.ItemId,
+                                  Item = item,
+                                  ItemName = item.Name,
+                                  Quantity = infoHistory.Quantity,
+                                  TransDate = infoHistory.TransDate,
+                                  StockCheckOut = infoHistory.StockCheckOut,
+                                  TransactionType = infoHistory.TransactionType
+                              }).ToList();
+
+                return result;
+            }
+            else
+            {
+                // If conversion fails, return an empty list or handle the error as needed
+                return new List<ItemCurrentInfoHistory>();
+            }
+        }
+
+
+
     }
 }

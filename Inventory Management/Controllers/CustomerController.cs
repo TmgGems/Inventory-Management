@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory_Management.Controllers
 {
-    [Authorize(Roles ="admin")]
+    //[Authorize(Roles ="admin")]
     public class CustomerController : Controller
     {
         public IActionResult Index()

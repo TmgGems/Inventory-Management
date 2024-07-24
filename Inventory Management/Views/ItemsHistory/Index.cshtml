@@ -1,7 +1,16 @@
-﻿
-<div class="top-left">
-    <input type="text" class="form-control d-inline-block w-auto" placeholder="Search Item" data-bind="value: $root.searchTerm, valueUpdate: 'afterkeydown'" />
-    <button class="btn btn-secondary mx-3" data-bind="click:$root.clickedSearch">Search</button>
+﻿<div class="container">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-between">
+            <div>
+                <input type="text" class="form-control d-inline-block w-auto" placeholder="Search Item" data-bind="value: $root.searchTerm, valueUpdate: 'afterkeydown'" />
+                <button class="btn btn-secondary mx-3" data-bind="click:$root.clickedSearch">Search</button>
+            </div>
+            <div>
+                <input type="text" class="form-control d-inline-block w-auto" placeholder="Transaction Type" data-bind="value: $root.transactionType, valueUpdate: 'afterkeydown'" />
+                <button class="btn btn-secondary mx-3" data-bind="click:$root.clickTrans">Search</button>
+            </div>
+        </div>
+    </div>
 </div>
 <table class="table table-striped mt-4">
     <thead>

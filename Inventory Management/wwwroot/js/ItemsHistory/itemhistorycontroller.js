@@ -5,7 +5,7 @@ var itemhistorycontroller = function () {
     self.ItemHistoryList = ko.observableArray([]);
     self.searchTerm = ko.observable('');
     self.searchArrayList = ko.observableArray([]);
-
+    self.transactionType = ko.observable('');
 
     self.getData = function () {
         ajax.get(baseUrl + "/GetAll").then(function (result) {
@@ -30,6 +30,22 @@ var itemhistorycontroller = function () {
     self.clickedSearch = function ()
     {
         self.getSearchData();
+    }
+
+
+    self.getSearchTransData = function ()
+    {
+        if (self.transactionType()) {
+            ajax.get(baseUrl + "/SearchTransType?transType=" + encodeURIComponent(self.transactionType()))
+                .then(function (result) {
+                    self.searchArrayList(result.map(item => new itemhistorymodel(item)));
+                    self.ItemHistoryList(self.searchArrayList());
+                })
+        }
+    }
+    self.clickTrans = function ()
+    {
+        self.getSearchTransData();
     }
 
 }
