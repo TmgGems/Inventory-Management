@@ -79,9 +79,9 @@ namespace Inventory_Management.Controllers.API
             // Convert the string transType to the enum TransactionType
             if (Enum.TryParse(transType, true, out TransactionType transactionType))
             {
-             var historydata = _context.ItemsHistoryInfo
-            .Where(x => x.TransactionType == transactionType)
-            .ToList();
+                var historydata = _context.ItemsHistoryInfo
+               .Where(x => x.TransactionType == transactionType)
+               .ToList();
 
                 var items = _context.Items.ToList();
                 var result = (from infoHistory in historydata
@@ -108,6 +108,51 @@ namespace Inventory_Management.Controllers.API
         }
 
 
+        [HttpGet]
+        public List<ItemCurrentInfoHistory> Search(string searchedItem, string transType)
+        {
+            IQueryable<ItemCurrentInfoHistory> query = _context.ItemsHistoryInfo;
+
+            // If searchedItem is provided, filter by item name
+            if (!string.IsNullOrEmpty(searchedItem))
+            {
+                var itemIds = _context.Items
+                    .Where(x => x.Name.ToLower() == searchedItem.ToLower())
+                    .Select(i => i.Id)
+                    .ToList();
+
+                query = query.Where(x => itemIds.Contains(x.ItemId));
+            }
+
+            // If transType is provided, filter by transaction type
+            if (!string.IsNullOrEmpty(transType) && Enum.TryParse(transType, true, out TransactionType transactionType))
+            {
+                query = query.Where(x => x.TransactionType == transactionType);
+            }
+
+            // Execute the query and join with items to get item names
+            var historydata = query.ToList();
+            var items = _context.Items.ToList();
+            var result = (from infoHistory in historydata
+                          join item in items on infoHistory.ItemId equals item.Id
+                          select new ItemCurrentInfoHistory
+                          {
+                              Id = infoHistory.Id,
+                              ItemId = infoHistory.ItemId,
+                              Item = item,
+                              ItemName = item.Name,
+                              Quantity = infoHistory.Quantity,
+                              TransDate = infoHistory.TransDate,
+                              StockCheckOut = infoHistory.StockCheckOut,
+                              TransactionType = infoHistory.TransactionType
+                          }).ToList();
+
+            return result;
+        }
 
     }
+
+
+
 }
+
