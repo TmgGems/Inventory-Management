@@ -11,7 +11,6 @@ var masterpurchaseVM = function (item)
     self.billAmount = ko.observable(item.billAmount || 0);
     self.discount = ko.observable(item.discount || 0);
     self.netAmount = ko.observable(item.netAmount || 0);
-    
 
     self.purchaseDetails = ko.observableArray((item.purchaseDetails || []).map(function (detail) {
         return new detailpurchaseVM(detail);
@@ -99,3 +98,17 @@ var vendornamemodel = function (item)
     self.vendorName = ko.observable(item.vendorName || '');
 }
 
+
+var purchaseReportmodel = function (item)
+{
+    var self = this;
+    item = item || {};
+    self.date = ko.observable(item.date || '');
+    self.vendorName = ko.observable(item.vendorName || '');
+    self.invoiceNumber = ko.observable(item.invoiceNumber || 0);
+    self.itemName = ko.observable(item.itemName || '');
+    self.quantityPurchased = ko.observable(item.quantityPurchased || 0);
+    self.unitPrice = ko.observable(item.unitPrice || 0);
+    self.totalPurchaseAmount = ko.observable(item.totalPurchaseAmount || 0);
+}
+ 

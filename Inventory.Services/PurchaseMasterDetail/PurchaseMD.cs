@@ -343,6 +343,55 @@ namespace Inventory.Services.PurchaseMasterDetail
             return vendordatas;
         }
 
+        public List<PurchaseReportVm> GetReport()
+        {
+            var report = _context.ItemsHistoryInfo
+                .Join(_context.Items,
+                    ih => ih.ItemId,
+                    i => i.Id,
+                    (ih, i) => new { ItemHistory = ih, Item = i })
+                .Join(_context.PurchaseDetail,
+                    x => x.Item.Id,
+                    pd => pd.ItemId,
+                    (x, pd) => new { x.ItemHistory, x.Item, PurchaseDetail = pd })
+                .Join(_context.PurchaseMaster,
+                    x => x.PurchaseDetail.PurchaseMasterId,
+                    pm => pm.Id,
+                    (x, pm) => new { x.ItemHistory, x.Item, x.PurchaseDetail, PurchaseMaster = pm })
+                .Join(_context.Vendors,
+                    x => x.PurchaseMaster.VendorId,
+                    v => v.Id,
+                    (x, v) => new { x.ItemHistory, x.Item, x.PurchaseDetail, x.PurchaseMaster, Vendor = v })
+                .GroupBy(x => new
+                {
+                    x.ItemHistory.Id,
+                    x.ItemHistory.TransDate,
+                    VendorName = x.Vendor.Name,
+                    x.PurchaseMaster.InvoiceNumber,
+                    ItemName = x.Item.Name,
+                    x.PurchaseDetail.Quantity,
+                    x.PurchaseDetail.Price,
+                    x.PurchaseDetail.Amount
+                })
+                .Select(g => new PurchaseReportVm
+                {
+                    Date = g.Key.TransDate.ToString("yyyy-MM-dd HH:mm:ss"), // Format the date and time
+                    VendorName = g.Key.VendorName,
+                    InvoiceNumber = g.Key.InvoiceNumber,
+                    ItemName = g.Key.ItemName,
+                    QuantityPurchased = g.Key.Quantity,
+                    UnitPrice = g.Key.Price,
+                    TotalPurchaseAmount = g.Key.Amount
+                })
+                .ToList();
+
+            return report;
+
+
+        }
+
+
+
 
     }
 }

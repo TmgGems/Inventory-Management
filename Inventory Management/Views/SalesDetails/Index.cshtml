@@ -1,8 +1,52 @@
 ﻿<div class="container mt-4">
     <h2>Inventory Management System</h2>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#salesModal" data-bind="click: setCreateMode">
-        Create New Order
-    </button>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6 text-start">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#salesModal" data-bind="click: setCreateMode">
+                    Create New Order
+                </button>
+            </div>
+            <div class="col-6 text-end">
+                <button type="button" class="btn btn-primary" data-bind="click:getSalesReport">
+                    Sales Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Section -->
+    <div class="container mt-4" data-bind="visible:showReport">
+        <h3>Sales Report</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>S.N</th>
+                    <th>Date</th>
+                    <th>Customer Name</th>
+                    <th>Invoice Number</th>
+                    <th>Item Name</th>
+                    <th>Quantity Sold</th>
+                    <th>Unit Price</th>
+                    <th>Total Sales Amount</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: SalesReportList">
+                <tr>
+                    <td data-bind="text: $index() + 1"></td>
+                    <td data-bind="text: date"></td>
+                    <td data-bind="text: customerName"></td>
+                    <td data-bind="text: invoiceNumber"></td>
+                    <td data-bind="text: itemName"></td>
+                    <td data-bind="text: quantitySold"></td>
+                    <td data-bind="text: unitPrice"></td>
+                    <td data-bind="text: totalSalesAmount"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 
     <div class="modal fade" id="salesModal" tabindex="-1" aria-labelledby="salesModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg">
@@ -100,7 +144,7 @@
             </div>
         </div>
     </div>
-    <table class="table table-striped mt-4">
+    <table class="table table-striped mt-4" data-bind="hidden:showReport">
         <thead>
             <tr>
                 <th>S.N.</th>

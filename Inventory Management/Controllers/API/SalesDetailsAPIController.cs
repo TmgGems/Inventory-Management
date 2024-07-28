@@ -2,6 +2,7 @@
 using Inventory.Services.MasterDetail;
 using Inventory.Services.MasterDetail.ViewModel;
 using Inventory.Services.Modell;
+using Inventory.Services.SalesMasterDetail.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory_Management.Controllers.API
@@ -57,6 +58,10 @@ namespace Inventory_Management.Controllers.API
             return _salesDetailsService.GetItemsName();
         }
 
-
+        [HttpGet]
+        public List<SalesReportVM> GetSalesReport()
+        {
+            return _salesDetailsService.GetSalesReport();
+        }
     }
 }

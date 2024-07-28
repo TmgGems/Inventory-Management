@@ -2,6 +2,7 @@
 using Inventory.Services.Item.ViewModel;
 using Inventory.Services.MasterDetail.ViewModel;
 using Inventory.Services.Modell;
+using Inventory.Services.SalesMasterDetail.ViewModel;
 using Inventory_Management.Data;
 using Inventory_Management.Models;
 
@@ -383,6 +384,25 @@ namespace Inventory.Services.MasterDetail
                 quantity = Itemsquantity.quantity
             }).ToList();
             return items;
+        }
+
+        public List<SalesReportVM> GetSalesReport()
+        {
+            var query = from sm in _context.SalesMaster
+                        join sd in _context.SalesDetails on sm.Id equals sd.SalesMasterId
+                        join c in _context.Customers on sm.CustomerId equals c.Id
+                        join i in _context.Items on sd.ItemId equals i.Id
+                        select new SalesReportVM
+                        {
+                            Date = sm.SalesDate.ToString("yyyy-MM-dd"), // Assuming SalesDate is a DateTime property
+                            CustomerName = c.FullName,
+                            InvoiceNumber = sm.InvoiceNumber,
+                            ItemName = i.Name,
+                            QuantitySold = sd.quantity,
+                            UnitPrice = sd.price,
+                            TotalSalesAmount = sd.quantity * sd.price
+                        };
+            return query.ToList();  
         }
     }
 }

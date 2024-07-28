@@ -1,9 +1,50 @@
 ﻿<div class="container mt-4">
     <h2>Purchase Management System</h2>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#purchaseModal"  data-bind="click: setCreateMode"  >
-        Create New Purchase
-    </button>
+    <div class="container">
+        <div class="row">
+            <div class="col-6 text-start">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#purchaseModal" data-bind="click: setCreateMode">
+                    Create New Purchase
+                </button>
+            </div>
+            <div class="col-6 text-end">
+                <button type="button" class="btn btn-primary" data-bind="click:getReportData">
+                    Purchase Report
+                </button>
+            </div>
+        </div>
+    </div>
 
+    <!-- Report Section -->
+    <div class="container mt-4" data-bind="visible:showReport">
+        <h3>Purchase Report</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>S.N</th>
+                    <th>Date</th>
+                    <th>Vendor Name</th>
+                    <th>Invoice Number</th>
+                    <th>Item Name</th>
+                    <th>Quantity Purchased</th>
+                    <th>Unit Price</th>
+                    <th>Total Purchase Amount</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: ReportData">
+                <tr>
+                    <td data-bind="text: $index() + 1"></td>
+                    <td data-bind="text: date"></td>
+                    <td data-bind="text: vendorName"></td>
+                    <td data-bind="text: invoiceNumber"></td>
+                    <td data-bind="text: itemName"></td>
+                    <td data-bind="text: quantityPurchased"></td>
+                    <td data-bind="text: unitPrice"></td>
+                    <td data-bind="text: totalPurchaseAmount"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg">
@@ -100,7 +141,7 @@
             </div>
         </div>
     </div>
-    <table class="table table-striped mt-4">
+    <table class="table table-striped mt-4 " data-bind="hidden:showReport">
         <thead>
             <tr>
                 <th>S.N.</th>
@@ -121,7 +162,7 @@
                 <td data-bind="text: discount"></td>
                 <td data-bind="text: netAmount"></td>
                 <td>
-                    <button data-bind="click: $root.SelectVendor"  class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#purchaseModal">Edit</button>
+                    <button data-bind="click: $root.SelectVendor" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#purchaseModal">Edit</button>
                     <button class="btn btn-sm btn-danger" data-bind="click:$root.DeletePurchase">Delete</button>
                 </td>
             </tr>
@@ -129,7 +170,7 @@
     </table>
 </div>
 @section Scripts
-{
+    {
     <script src="~/js/knockout.js"></script>
     <script src="~/js/purchasemasterdetails/purchasemastermodel.js"></script>
     <script src="~/js/purchasemasterdetails/purchasemastercontroller.js"></script>

@@ -14,6 +14,8 @@ var masterdetailsController = function () {
     self.NewSales = ko.observable(new mastermodelVM({}, self));
     self.SelectedSales = ko.observable(new mastermodelVM());
     self.IsUpdated = ko.observable(false);
+    self.SalesReportList = ko.observableArray([]);
+    self.showReport = ko.observable(false);
     //self.NewSales().sales.push(new detailsmodelVM());
     //Get All Data
     self.getData = function () {
@@ -24,6 +26,14 @@ var masterdetailsController = function () {
     self.getData();
 
     // Get CustomerNames
+    self.getSalesReport = function()
+    {
+        ajax.get(baseUrl + "/GetSalesReport").then(function (result)
+        {
+            self.SalesReportList(result.map(item => new salesreportmodel(item, self)));
+        self.showReport(true);
+        });
+    }
 
     self.getCustomersName = function () {
         var url = baseUrl + "/GetCustomersName";

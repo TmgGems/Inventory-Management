@@ -26,5 +26,7 @@ namespace Inventory.Services.PurchaseMasterDetail
         public IEnumerable<GetVendorsName> GetVendorsName();
 
         public IEnumerable<GetItemsNameVM> GetItemsName();
+
+        public List<PurchaseReportVm> GetReport();
     }
 }

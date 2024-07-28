@@ -2,6 +2,7 @@
 using Inventory.Services.Item.ViewModel;
 using Inventory.Services.MasterDetail.ViewModel;
 using Inventory.Services.Modell;
+using Inventory.Services.SalesMasterDetail.ViewModel;
 
 namespace Inventory.Services.MasterDetail
 {
@@ -20,5 +21,7 @@ namespace Inventory.Services.MasterDetail
         public IEnumerable<GetCustomersNameVM> GetCustomersName();
 
         IEnumerable<GetItemsNameVM> GetItemsName();
+
+        List<SalesReportVM> GetSalesReport();
     }
 }

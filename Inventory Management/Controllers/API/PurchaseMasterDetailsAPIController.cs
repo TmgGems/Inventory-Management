@@ -59,5 +59,11 @@ namespace Inventory_Management.Controllers.API
         {
             return _purchaseService.GetVendorsName();
         }
+
+        [HttpGet]
+        public List<PurchaseReportVm> GetReport()
+        {
+            return _purchaseService.GetReport();
+        }
     }
 }

@@ -65,3 +65,15 @@ var itemnamemodel = function (item) {
     self.itemUnit = ko.observable(item.itemUnit || '');
     self.availableQuantity = ko.observable(item.quantity || 0);
 }
+
+var salesreportmodel = function (item) {
+    var self = this;
+    item = item || {};
+    self.date = ko.observable(item.date || '');
+    self.customerName = ko.observable(item.customerName || '');
+    self.invoiceNumber = ko.observable(item.invoiceNumber || 0);
+    self.itemName = ko.observable(item.itemName || '');
+    self.quantitySold = ko.observable(item.quantitySold || 0);
+    self.unitPrice = ko.observable(item.unitPrice || 0);
+    self.totalSalesAmount = ko.observable(item.totalSalesAmount || 0);
+}

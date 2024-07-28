@@ -9,6 +9,8 @@ var purchasemasterdetailcontroller = function () {
     self.selectedPurchase = ko.observableArray([]);
     self.NewPurhaseOrder = ko.observable(new masterpurchaseVM());
     self.IsUpdated = ko.observable(false);
+    self.ReportData = ko.observableArray([]);
+    self.showReport = ko.observable(false);
 
     self.getData = function () {
         ajax.get(baseUrl + "/GetAll").then(function (result) {
@@ -17,6 +19,13 @@ var purchasemasterdetailcontroller = function () {
     }
     self.getData();
 
+
+    self.getReportData = function () {
+        ajax.get(baseUrl + "/GetReport").then(function (result) {
+            self.ReportData(result.map(item => new purchaseReportmodel(item)));
+            self.showReport(true);
+        });
+    }
 
     self.AddPurchase = function () {
         var purchaseData = ko.toJS(self.NewPurhaseOrder());
