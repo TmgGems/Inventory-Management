@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Inventory_Management.Migrations
+namespace Inventory.Db.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240718005638_addedPurchaseDetailTable")]
-    partial class addedPurchaseDetailTable
+    [Migration("20240728135947_modifiedStockCheckOut")]
+    partial class modifiedStockCheckOut
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,9 @@ namespace Inventory_Management.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
+                    b.Property<int>("quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ItemId");
@@ -52,6 +55,9 @@ namespace Inventory_Management.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<int>("StockCheckOut")
@@ -83,6 +89,9 @@ namespace Inventory_Management.Migrations
 
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("PurchaseMasterId")
                         .HasColumnType("int");
@@ -122,6 +131,9 @@ namespace Inventory_Management.Migrations
 
                     b.Property<decimal>("NetAmount")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("PurchaseDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("VendorId")
                         .HasColumnType("int");

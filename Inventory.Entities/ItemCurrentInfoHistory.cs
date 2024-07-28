@@ -46,7 +46,9 @@ namespace Inventory.Entities
     public enum StockCheckOut
     {
         In,
-        Out
+        Out,
+        Previous,
+        Now
     }
 
     public enum TransactionType

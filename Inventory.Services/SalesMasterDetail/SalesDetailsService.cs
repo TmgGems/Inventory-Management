@@ -48,6 +48,7 @@ namespace Inventory.Services.MasterDetail
                     var data = new SalesMasterVM()
                     {
                         Id = item.Id,
+
                         SalesDate = item.SalesDate,
                         CustomerId = item.CustomerId,
                         CustomerName = customer?.FullName,
@@ -283,7 +284,7 @@ namespace Inventory.Services.MasterDetail
                         ItemId = item.ItemId,
                         Quantity = item.quantity,
                         TransDate = DateTime.Now,
-                        StockCheckOut = StockCheckOut.In,
+                        StockCheckOut = StockCheckOut.Previous,
                         TransactionType = TransactionType.Sales
                     };
                     _context.ItemsHistoryInfo.Add(historyinfo);
@@ -326,7 +327,7 @@ namespace Inventory.Services.MasterDetail
                             ItemId = item.ItemId,
                             Quantity = item.quantity,
                             TransDate = DateTime.Now,
-                            StockCheckOut = StockCheckOut.In,
+                            StockCheckOut = StockCheckOut.Now,
                             TransactionType = TransactionType.Sales
                         };
                         _context.ItemsHistoryInfo.Add(historyInfoData);

@@ -105,7 +105,6 @@ var itemController = function () {
     self.AddItem = function () {
         switch (self.mode()) {
             case mode.create:
-                debugger
                 ajax.post(baseUrl, ko.toJSON(self.NewItem()))
                     .done(function (result) {
                         if (result.success) {

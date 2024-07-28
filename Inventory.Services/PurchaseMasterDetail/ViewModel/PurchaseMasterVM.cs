@@ -15,6 +15,8 @@ namespace Inventory.Services.PurchaseMasterDetail.ViewModel
 
         [Key]
         public int Id { get; set; }
+
+        public DateTime PurchaseDate { get; set; }
         public int VendorId { get; set; }
 
         public string ? VendorName {  get; set; }    

@@ -14,6 +14,8 @@ namespace Inventory.Entities
         [Key]
         public int Id { get; set; }
 
+        public DateTime PurchaseDate { get; set; }
+
         [ForeignKey("VendorId")]
         public int VendorId { get; set; }
         [JsonIgnore]
