@@ -25,6 +25,18 @@ var masterdetailsController = function () {
     }
     self.getData();
 
+
+    self.downloadPDF = function () {
+        var doc = new jspdf.jsPDF();
+        doc.autoTable({ html: '#reportTable' });
+        doc.save('purchase_report.pdf');
+    };
+
+    self.downloadExcel = function () {
+        var wb = XLSX.utils.table_to_book(document.getElementById('reportTable'), { sheet: "Purchase Report" });
+        XLSX.writeFile(wb, 'purchase_report.xlsx');
+    };
+
     // Get CustomerNames
     self.getSalesReport = function()
     {

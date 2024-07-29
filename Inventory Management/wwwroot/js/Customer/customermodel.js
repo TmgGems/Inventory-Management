@@ -1,41 +1,19 @@
-﻿//var customermodel = function(item)
-//{
-//    var self = this;
-//    item = item || {};
-//    self.id = ko.observable(item.id || 0);
-//    self.fullName = ko.observable(item.fullName || '').extend({
-//        validation: {
-//            message:"Full Name is Required ."
-//        }
-//    });
-//    self.contactNo = ko.observable(item.contactNo || '');
-//    self.address = ko.observable(item.address || '');
-
-//    //self.fullName = ko.observable(item.fullName || '').extend({
-//    //    required: { message: 'Full Name is required.' }
-//    //});
-//    //self.contactNo = ko.observable(item.contactNo || '').extend({
-//    //    required: { message: 'Contact No is required.' }
-//    //});
-//    //self.address = ko.observable(item.address || '').extend({
-//    //    required: { message: 'Address is required.' }
-//    //});
-
-//    //self.errors = ko.validation.group(self);
-//}
+﻿
 
 var customermodel = function (item) {
     var self = this;
     item = item || {};
     self.id = ko.observable(item.id || 0);
     self.fullName = ko.observable(item.fullName || '').extend({
-        required: { message: "Full Name is Required." }
+        required: { message: "Customer Name is Required." }
     });
     self.contactNo = ko.observable(item.contactNo || '').extend({
-        required: { message: "Contact No is Required." }
+        required: { message: "Contact No is Required." },
+        maxLength: { params: 9, message: "Contact No must not exceed 9 characters." },
+        minLength: { params: 9, message: "Contact No must be 9 characters long." }
     });
     self.address = ko.observable(item.address || '').extend({
-        required: { message: "Address is Required." }
+        required: { message: "Customer Address is Required." }
     });
 
     self.errors = ko.validation.group(self);
