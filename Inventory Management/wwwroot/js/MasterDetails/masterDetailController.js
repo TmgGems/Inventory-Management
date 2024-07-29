@@ -87,7 +87,6 @@ var masterdetailsController = function () {
         if (self.IsUpdated()) {
             ajax.put(baseUrl + "/Updates", JSON.stringify(salesData))
                 .done(function (result) {
-                    debugger
                     if (result.success) {
                         var updatedSales = new mastermodelVM(result);
                         var index = self.SalesList().findIndex(function (item) {

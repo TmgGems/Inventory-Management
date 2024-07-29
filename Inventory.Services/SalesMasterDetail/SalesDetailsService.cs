@@ -284,7 +284,7 @@ namespace Inventory.Services.MasterDetail
                         ItemId = item.ItemId,
                         Quantity = item.quantity,
                         TransDate = DateTime.Now,
-                        StockCheckOut = StockCheckOut.Previous,
+                        StockCheckOut = StockCheckOut.In,
                         TransactionType = TransactionType.Sales
                     };
                     _context.ItemsHistoryInfo.Add(historyinfo);
@@ -327,7 +327,7 @@ namespace Inventory.Services.MasterDetail
                             ItemId = item.ItemId,
                             Quantity = item.quantity,
                             TransDate = DateTime.Now,
-                            StockCheckOut = StockCheckOut.Now,
+                            StockCheckOut = StockCheckOut.Out,
                             TransactionType = TransactionType.Sales
                         };
                         _context.ItemsHistoryInfo.Add(historyInfoData);
