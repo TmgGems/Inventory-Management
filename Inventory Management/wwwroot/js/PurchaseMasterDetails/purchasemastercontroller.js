@@ -19,7 +19,16 @@ var purchasemasterdetailcontroller = function () {
     }
     self.getData();
 
+    self.downloadPDF = function () {
+        var doc = new jspdf.jsPDF();
+        doc.autoTable({ html: '#reportTable' });
+        doc.save('purchase_report.pdf');
+    };
 
+    self.downloadExcel = function () {
+        var wb = XLSX.utils.table_to_book(document.getElementById('reportTable'), { sheet: "Purchase Report" });
+        XLSX.writeFile(wb, 'purchase_report.xlsx');
+    };
     self.getReportData = function () {
         ajax.get(baseUrl + "/GetReport").then(function (result) {
             self.ReportData(result.map(item => new purchaseReportmodel(item)));

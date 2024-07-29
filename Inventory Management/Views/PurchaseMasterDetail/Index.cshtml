@@ -18,7 +18,17 @@
     <!-- Report Section -->
     <div class="container mt-4" data-bind="visible:showReport">
         <h3>Purchase Report</h3>
-        <table class="table table-striped">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 text-start">
+                    <button class="btn btn-secondary" data-bind="click: downloadPDF">Download PDF</button>
+                </div>
+                <div class="col-6 text-end">
+                    <button class="btn btn-success" data-bind="click: downloadExcel">Download Excel</button>
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped" id="reportTable">
             <thead>
                 <tr>
                     <th>S.N</th>
@@ -170,11 +180,14 @@
     </table>
 </div>
 @section Scripts
-    {
+{
     <script src="~/js/knockout.js"></script>
     <script src="~/js/purchasemasterdetails/purchasemastermodel.js"></script>
     <script src="~/js/purchasemasterdetails/purchasemastercontroller.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
     <script>
         $(document).ready(function () {
             var obj = new purchasemasterdetailcontroller();
