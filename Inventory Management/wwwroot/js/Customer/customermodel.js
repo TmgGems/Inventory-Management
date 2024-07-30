@@ -1,4 +1,4 @@
-﻿
+﻿    
 
 var customermodel = function (item) {
     var self = this;
@@ -9,8 +9,8 @@ var customermodel = function (item) {
     });
     self.contactNo = ko.observable(item.contactNo || '').extend({
         required: { message: "Contact No is Required." },
-        maxLength: { params: 9, message: "Contact No must not exceed 9 characters." },
-        minLength: { params: 9, message: "Contact No must be 9 characters long." }
+        maxLength: { params: 10, message: "Contact No must not exceed 10 characters." },
+        minLength: { params: 10, message: "Contact No must be 10 characters long." }
     });
     self.address = ko.observable(item.address || '').extend({
         required: { message: "Customer Address is Required." }

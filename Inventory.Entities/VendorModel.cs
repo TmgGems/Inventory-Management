@@ -14,6 +14,8 @@ namespace Inventory.Entities
 
         public string Name { get; set; }
 
+
+        [StringLength(10)]
         public string Contact {  get; set; }
 
         public string Address {  get; set; }

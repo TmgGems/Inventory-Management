@@ -48,27 +48,37 @@ var VendorController = function () {
         self.getSearchData();
     }
     self.AddVendor = function () {
+        var vendor = self.mode() == mode.create ? self.NewVendor() : self.SelectedVendor();
+        if (!vendor.isValid()){
+            vendor.errors.showAllMessages();
+            return;
+        };
+
         var vendorData = ko.toJS(self.IsUpdated() ? self.SelectedVendor : self.NewVendor);
         switch (self.mode()) {
             case 1:
                 ajax.post(baseUrl + "/AddVendor", JSON.stringify(vendorData))
                     .done(function (result) {
                         self.CurrentVendor.push(new VendorModel(result));
-                        self.GetDatas();
+                        self.ResetForm();
                         self.CloseModel();
+                        self.GetDatas();
                         $('#vendorModal').modal('hide');
                     })
                 break;
             case 2:
-                ajax.put(baseUrl +"/UpdateVendor", JSON.stringify(vendorData))
+                debugger;
+                ajax.put(baseUrl + "/UpdateVendor", JSON.stringify(vendorData))
                     .done(function (result) {
                         self.CurrentVendor.replace(self.SelectedVendor(), new VendorModel(result));
-                        self.CloseModel();
+                        self.ResetForm();
+                        //self.CloseModel();
                         self.GetDatas();
                         $('#vendorModal').modal('hide');
                     })
         }
     }
+
 
     self.DeleteVendor = function (model) {
         self.vendorToDelete(model);
@@ -80,7 +90,7 @@ var VendorController = function () {
     self.confirmDelete = function () {
         var model = self.vendorToDelete();
         if (model) {
-            ajax.delete(baseUrl + "/DeleteModel" +"?vendorId=" + model.Id())
+            ajax.delete(baseUrl + "/DeleteModel" + "?vendorId=" + model.Id())
                 .done((result) => {
                     self.CurrentVendor.remove(model);
                     $('#deleteConfirmModal').modal('hide');
@@ -100,6 +110,8 @@ var VendorController = function () {
     }
 
     self.CloseModel = function () {
+        self.IsUpdated(false);
+        self.SelectedVendor(new VendorModel());
         self.ResetForm();
         self.GetDatas();
     }
@@ -108,8 +120,10 @@ var VendorController = function () {
         self.NewVendor(new VendorModel());
         self.SelectedVendor(new VendorModel());
         self.IsUpdated(false);
+        self.SelectedVendor(new VendorModel());
     }
 }
+
 
 var ajax = {
     get: function (url) {
