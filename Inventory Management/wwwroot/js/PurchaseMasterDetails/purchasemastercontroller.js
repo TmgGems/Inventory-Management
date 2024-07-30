@@ -30,8 +30,7 @@ var purchasemasterdetailcontroller = function () {
         XLSX.writeFile(wb, 'purchase_report.xlsx');
     };
 
-    self.
-    self.getReportData = function () {
+        self.getReportData = function () {
         console.log("Report Data Called");
         ajax.get(baseUrl + "/GetReport").then(function (result) {
             console.log("Report Data Received", result);
