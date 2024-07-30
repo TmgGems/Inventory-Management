@@ -1,7 +1,7 @@
-﻿<div class="container mt-4">
-    <h2>Inventory Management System</h2>
+﻿<h2>Sales Management System</h2>
+<div class="container mt-4">
 
-    <div class="container">
+    <div class="container" data-bind="visible:!showReport()">
         <div class="row">
             <div class="col-6 text-start">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#salesModal" data-bind="click: setCreateMode">
@@ -17,15 +17,18 @@
     </div>
 
     <!-- Report Section -->
-    <div class="container mt-4" data-bind="visible:showReport">
+    <div class="container mt-4" data-bind="visible:showReport()">
         <h3>Sales Report</h3>
         <div class="container">
-            <div class="row">
-                <div class="col-6 text-start">
+            <div class="column d-flex justify-content-end">
+                <div >
                     <button class="btn btn-secondary" data-bind="click: downloadPDF">Download PDF</button>
                 </div>
-                <div class="col-6 text-end">
+                <div >
                     <button class="btn btn-success" data-bind="click: downloadExcel">Download Excel</button>
+                </div>
+                <div>
+                    <button class="btn btn-primary" data-bind="click: backToMain">Back</button>
                 </div>
             </div>
         </div>

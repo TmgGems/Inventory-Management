@@ -84,6 +84,10 @@ var masterdetailsController = function () {
 
     self.getItemsName();
 
+    self.backToMain = function () {
+        self.showReport(false);
+    }
+
     self.AddSales = function () {
         var salesData = ko.toJS(self.NewSales());
         if (!salesData.sales || salesData.sales.length === 0) {

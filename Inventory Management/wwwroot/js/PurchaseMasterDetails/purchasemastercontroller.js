@@ -29,13 +29,22 @@ var purchasemasterdetailcontroller = function () {
         var wb = XLSX.utils.table_to_book(document.getElementById('reportTable'), { sheet: "Purchase Report" });
         XLSX.writeFile(wb, 'purchase_report.xlsx');
     };
+
+    self.
     self.getReportData = function () {
+        console.log("Report Data Called");
         ajax.get(baseUrl + "/GetReport").then(function (result) {
+            console.log("Report Data Received", result);
             self.ReportData(result.map(item => new purchaseReportmodel(item)));
             self.showReport(true);
+            console.log("Show Report Set To True");
         });
+
     }
 
+    self.backToMain = function () {
+        self.showReport(false);
+    }
     self.AddPurchase = function () {
         var purchaseData = ko.toJS(self.NewPurhaseOrder());
         if (!purchaseData.purchaseDetails || purchaseData.purchaseDetails === 0) {
