@@ -49,10 +49,16 @@ var VendorController = function () {
     }
     self.AddVendor = function () {
         var vendor = self.mode() == mode.create ? self.NewVendor() : self.SelectedVendor();
+        if (vendor.Address() == '') {
+    
+            toastr.error("Address is required")
+        }
         if (!vendor.isValid()){
             vendor.errors.showAllMessages();
             return;
         };
+
+
 
         var vendorData = ko.toJS(self.IsUpdated() ? self.SelectedVendor : self.NewVendor);
         switch (self.mode()) {
@@ -63,17 +69,18 @@ var VendorController = function () {
                         self.ResetForm();
                         self.CloseModel();
                         self.GetDatas();
+                        toastr.success("Vendor Added SuccessFully !");
                         $('#vendorModal').modal('hide');
                     })
                 break;
             case 2:
-                debugger;
                 ajax.put(baseUrl + "/UpdateVendor", JSON.stringify(vendorData))
                     .done(function (result) {
                         self.CurrentVendor.replace(self.SelectedVendor(), new VendorModel(result));
                         self.ResetForm();
                         //self.CloseModel();
                         self.GetDatas();
+                        toastr.success("Vendor updated successFully ! ");
                         $('#vendorModal').modal('hide');
                     })
         }
@@ -99,6 +106,7 @@ var VendorController = function () {
                     console.log(err);
                     $('#deleteConfirmModal').modal('hide');
                 });
+            toastr.success("Vendor Deleted SuccessFully");
         }
     };
 
